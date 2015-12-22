@@ -2,22 +2,23 @@ var gulp = require('gulp'),
 	watch = require('gulp-watch'),
 	browser = require('browser-sync').create(),
 	batch = require('gulp-batch'),
- 	sass = require('gulp-sass'),
+	sass = require('gulp-sass'),
 	concat = require('gulp-concat'),
-    stripDebug = require('gulp-strip-debug'),
+	stripDebug = require('gulp-strip-debug'),
 	uglify = require('gulp-uglify'),
 	minify = require('gulp-minify-css'),
 	imageOp = require('gulp-image-optimization'),
 	clean = require('gulp-clean'),
 	jshint = require('gulp-jshint'),
-	typescript = require('gulp-tsc');
+	typescript = require('gulp-tsc'),
+	child_process = require('child_process');
 
 gulp.task('default', 
 	['build']
 );
 
 gulp.task('build', 
-	['lint', 'sass', 'compile', 'watch']
+	['lint', 'sass', 'compile', 'clean-tsc']
 );
 
 gulp.task('build-dist', 
@@ -25,8 +26,17 @@ gulp.task('build-dist',
 );
 
 gulp.task('clean', function(){
-	return gulp.src(["public/*", ".app/build/*"])
-        .pipe(clean());
+	return gulp.src(["public/*"])
+		.pipe(clean());
+});
+
+gulp.task('clean-tsc', ['lint', 'sass', 'compile'], function(){
+	return gulp.src(["app/components/*.js", "app/components/*js.map", "app/*.js", "app/*js.map"])
+		.pipe(clean());
+});
+
+gulp.task('exec-tsc', function(){
+	child_process.execSync('npm run tsc');
 });
 
 gulp.task('lint', function(){
@@ -37,9 +47,9 @@ gulp.task('lint', function(){
 });
 
 gulp.task('watch', function () {    
-    watch(['./app/*/*.ts', './app/**/*.scss'], batch(function (events, done) {
-        gulp.start('build', done);
-    }));
+	watch(['./app/*/*.ts', './app/**/*.scss'], batch(function (events, done) {
+		gulp.start('build', done);
+	}));
 });
 
 gulp.task('browser-sync', function() {
@@ -50,20 +60,16 @@ gulp.task('browser-sync', function() {
 //    });
 });
 
-gulp.task('compile', ['clean'], function(){
-	gulp.src(['./app/boot.ts', './app/*/*.ts'])
-		.pipe(typescript({experimentalDecorators: true}))
-		.pipe(gulp.dest('./app/build'));
-
-	gulp.src(['./app/build/boot.js', './app/build/*/*.js'])
-		.pipe(concat('bundled.js'))
-		.pipe(gulp.dest('./public'));
+gulp.task('compile', ['clean', 'exec-tsc'], function(){
+	gulp.src(['./app/boot.js', './app/*/*.js'])
+		.pipe(gulp.dest('./public/app'));
 
 	gulp.src(['./app/*.html'])
-		.pipe(gulp.dest('./public'));
+		.pipe(gulp.dest('./public/'));
 
 	gulp.src(['./app/assets/*'])
-		.pipe(gulp.dest('./public/'));
+		.pipe(gulp.dest('./public/app'));
+
 });
 
 gulp.task('compile-dist', ['clean'], function(){
@@ -72,7 +78,6 @@ gulp.task('compile-dist', ['clean'], function(){
 		.pipe(gulp.dest('./app/build'));
 
 	gulp.src(['./app/build/boot.js', './app/build/*/*.js'])
-		.pipe(concat('bunled.js'))
 		.pipe(uglify())
 		.pipe(stripDebug())
 		.pipe(gulp.dest('./public'));
@@ -83,19 +88,19 @@ gulp.task('compile-dist', ['clean'], function(){
  
 gulp.task('sass', function () {
 	gulp.src('./app/**/*.scss')
-	    .pipe(sass().on('error', sass.logError))
-	    .pipe(concat('bundled.css'))
-	    .pipe(gulp.dest('./public'));
+	.pipe(sass().on('error', sass.logError))
+		.pipe(concat('bundled.css'))
+		.pipe(gulp.dest('./public'));
 });
 
 gulp.task('sass-dist', function () {
 	gulp.src('./app/**/*.scss')
-	    .pipe(sass().on('error', sass.logError))
-	    .pipe(minify())
-	    .pipe(concat('bundled.css'))
-	    .pipe(gulp.dest('./public'));
+		.pipe(sass().on('error', sass.logError))
+		.pipe(minify())
+		.pipe(concat('bundled.css'))
+		.pipe(gulp.dest('./public'));
 });
  
 gulp.task('sass:watch', function () {
-  	gulp.watch('./sass/**/*.scss', ['sass']);
+	gulp.watch('./sass/**/*.scss', ['sass']);
 });
