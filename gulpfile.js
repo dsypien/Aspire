@@ -31,7 +31,7 @@ gulp.task('clean', function(){
 });
 
 gulp.task('clean-tsc', ['lint', 'sass', 'compile'], function(){
-	return gulp.src(["app/components/*.js", "app/components/*js.map", "app/*.js", "app/*js.map"])
+	return gulp.src(["app/*/*.js", "app/*/*js.map", "app/*.js", "app/*js.map"])
 		.pipe(clean());
 });
 
