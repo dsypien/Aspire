@@ -1,7 +1,12 @@
 import {Component} from 'angular2/core';
+import {TaskListComponent} from './task-list'
 
 @Component({
     selector: 'my-app',
-    template: '<h1>My First Angular 2 App</h1>'
+    directives: [TaskListComponent],
+    template: `
+    	<h1>Daily Tasks </h1>
+    	<task-list></task-list>
+    `
 })
 export class AppComponent { }
