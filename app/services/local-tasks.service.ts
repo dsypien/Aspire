@@ -3,8 +3,8 @@ import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
 
 @Injectable()
 export class LocalTasksService implements TaskServiceInterface{
-	_isDirty: boolean = false;
-	_tasks: { nextID: number, items: Array<any> };
+	private _isDirty: boolean = false;
+	private _tasks: { nextID: number, items: Array<any> };
 
 	getTasks(){		
 		return Promise.resolve(this.getTasksObject().items);
