@@ -6,21 +6,8 @@ export class LocalTasksService implements TaskServiceInterface{
 	_isDirty: boolean = false;
 	_tasks: { nextID: number, items: Array<any> };
 
-	getTasks(){
-		if (this._isDirty) {
-			var tasks = localStorage.getItem('tasks');
-
-			if(tasks === null){
-				this._tasks = { nextID: 1, items: [] };
-			}
-			else{
-				this._tasks = JSON.parse(tasks);
-			}
-
-			this._isDirty = false;
-		}
-		
-		return Promise.resolve(this._tasks.items);
+	getTasks(){		
+		return Promise.resolve(this.getTasksObject().items);
 	}
 
 	private getTasksObject(){
@@ -37,22 +24,19 @@ export class LocalTasksService implements TaskServiceInterface{
 			this._isDirty = false;
 		}
 
-		return Promise.resolve(this._tasks);
+		return this._tasks;
 	}
 
 	createTask(Task){
-		var tasks;
+		var tasks = this.getTasksObject();
 
-		this.getTasksObject().then(t=> {
-			Task.id = t.nextID;
-			tasks = t.items;
-			tasks.nextID++;
-			tasks.push(Task);
+		Task.id = tasks.nextID;
+		tasks.nextID++;
+		tasks.items.push(Task);
 
-			localStorage.setItem('tasks', JSON.stringify(tasks));
+		localStorage.setItem('tasks', JSON.stringify(tasks));
 
 			this._isDirty = true;
-		});
 	}
 	
 	updateTask(Task){
