@@ -4,7 +4,9 @@ import {Component} from 'angular2/core'
 	selector: 'task-item',
 	properties: ['task'],
 	template: `
-		<input type="checkbox"> {{task.name}}
+		<div class="task-item">
+			<label><input type="checkbox">{{task.name}}</label>
+		</div>
 	`
 })
 
