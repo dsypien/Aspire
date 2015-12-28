@@ -18,7 +18,7 @@ gulp.task('default',
 );
 
 gulp.task('build', 
-	['lint', 'sass', 'compile', 'clean-tsc']
+	['lint', 'sass', 'compile']
 );
 
 gulp.task('build-dist', 
@@ -30,8 +30,11 @@ gulp.task('clean', function(){
 		.pipe(clean());
 });
 
-gulp.task('clean-tsc', ['lint', 'sass', 'compile'], function(){
-	return gulp.src(["app/*/*.js", "app/*/*js.map", "app/*.js", "app/*js.map"])
+gulp.task('clean-tsc', function(){
+	gulp.src(["app/*.js", "app/*js.map"])
+		.pipe(clean());
+
+	gulp.src(["app/*/*.js", "app/*/*js.map"])
 		.pipe(clean());
 });
 
