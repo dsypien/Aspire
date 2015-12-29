@@ -3,11 +3,17 @@ import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
 
 @Injectable()
 export class LocalTasksService implements TaskServiceInterface{
-	private _isDirty: boolean = false;
+	private _isDirty: boolean = true;
 	private _tasks: { nextID: number, items: Array<any> };
 
 	getTasks(){		
-		return Promise.resolve(this.getTasksObject().items);
+		var tasks = this.getTasksObject();
+		if (tasks) {
+			return Promise.resolve(tasks.items);
+		}
+		else{
+			return Promise.resolve(null);
+		}
 	}
 
 	private getTasksObject(){
@@ -29,6 +35,10 @@ export class LocalTasksService implements TaskServiceInterface{
 
 	createTask(Task){
 		var tasks = this.getTasksObject();
+
+		if(!tasks){
+
+		}
 
 		Task.id = tasks.nextID;
 		tasks.nextID++;
