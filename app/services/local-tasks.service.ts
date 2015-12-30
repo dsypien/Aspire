@@ -6,12 +6,12 @@ import {Task} from '../interfaces/Task.Interface';
 @Injectable()
 export class LocalTasksService implements TaskServiceInterface{
 	private _isDirty: boolean = true;
-	private _tasks: { nextID: number, items: TaskMap<Task> };
+	private _tasks: { nextID: number, items: Array<any> };
 
 	getTasks(){		
 		var tasks = this.getTasksObject();
 
-		if (tasks && Object.keys(tasks.items).length > 0) {
+		if (tasks && tasks.items.length > 0) {
 			return Promise.resolve(tasks.items);
 		}
 		else{
@@ -24,7 +24,7 @@ export class LocalTasksService implements TaskServiceInterface{
 			var tasks = localStorage.getItem('tasks');
 
 			if (tasks === null) {
-				this._tasks = { nextID: 1, items: {}};
+				this._tasks = { nextID: 1, items: [] };
 			}
 			else {
 				this._tasks = JSON.parse(tasks);
@@ -41,7 +41,7 @@ export class LocalTasksService implements TaskServiceInterface{
 
 		Task.id = tasks.nextID;
 		tasks.nextID++;
-		tasks.items[Task.id] = Task;
+		tasks.items.push(Task);
 
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 

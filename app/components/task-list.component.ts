@@ -18,7 +18,7 @@ import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
 })
 
 export class TaskListComponent{
-	public tasks: {};
+	public tasks: Array<any>;
 
 	constructor(private _taskService: LocalTasksService) {
 	}
