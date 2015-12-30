@@ -18,7 +18,7 @@ import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
 })
 
 export class TaskListComponent{
-	public tasks: Array<any>;
+	public tasks: {};
 
 	constructor(private _taskService: LocalTasksService) {
 	}
@@ -28,7 +28,12 @@ export class TaskListComponent{
 	}
 
 	getTasks(){
-		this._taskService.getTasks().then(tasks=> this.tasks = tasks);
+		this._taskService.getTasks().then(
+			tasks=> {
+				console.log(tasks);
+				this.tasks = tasks
+			}
+		);
 	}
 	
 }

@@ -30,6 +30,8 @@ gulp.task('clean', function(){
 		.pipe(clean());
 });
 
+gulp.task('cts', ['clean-tsc']);
+
 gulp.task('clean-tsc', function(){
 	gulp.src(["app/*.js", "app/*js.map"])
 		.pipe(clean());

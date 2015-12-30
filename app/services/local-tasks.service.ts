@@ -1,14 +1,17 @@
 import {Injectable} from 'angular2/core';
 import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
+import {TaskMap} from '../interfaces/TaskMap.Interface';
+import {Task} from '../interfaces/Task.Interface';
 
 @Injectable()
 export class LocalTasksService implements TaskServiceInterface{
 	private _isDirty: boolean = true;
-	private _tasks: { nextID: number, items: Array<any> };
+	private _tasks: { nextID: number, items: TaskMap<Task> };
 
 	getTasks(){		
 		var tasks = this.getTasksObject();
-		if (tasks) {
+
+		if (tasks && Object.keys(tasks.items).length > 0) {
 			return Promise.resolve(tasks.items);
 		}
 		else{
@@ -21,7 +24,7 @@ export class LocalTasksService implements TaskServiceInterface{
 			var tasks = localStorage.getItem('tasks');
 
 			if (tasks === null) {
-				this._tasks = { nextID: 1, items: [] };
+				this._tasks = { nextID: 1, items: {}};
 			}
 			else {
 				this._tasks = JSON.parse(tasks);
@@ -36,21 +39,16 @@ export class LocalTasksService implements TaskServiceInterface{
 	createTask(Task){
 		var tasks = this.getTasksObject();
 
-		if(!tasks){
-
-		}
-
 		Task.id = tasks.nextID;
 		tasks.nextID++;
-		tasks.items.push(Task);
+		tasks.items[Task.id] = Task;
 
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 
-			this._isDirty = true;
+		this._isDirty = true;
 	}
 	
 	updateTask(Task){
-
 		this._isDirty = true;
 	}
 	
@@ -60,14 +58,3 @@ export class LocalTasksService implements TaskServiceInterface{
 	}
 	
 }
-
-var TASKS = [
-	{
-		name: "Do a pomodoro of technical training",
-		isComplete: false
-	},
-	{
-		name: "Do a pomodoro of work on personal project",
-		isComplete: false
-	}
-];
