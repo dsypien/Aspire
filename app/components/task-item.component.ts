@@ -1,21 +1,25 @@
-import {Component} from 'angular2/core'
+import {Component} from 'angular2/core';
+import {Task} from '../interfaces/Task.Interface';
 
 @Component({
 	selector: 'task-item',
-	properties: ['task'],
+	inputs: ['task'],
 	template: `
 		<div class="task-item">
-			<label><input type="checkbox">{{task.name}}</label>
+			<input type="checkbox">
+			<input [(ngModel)]="task.name" (change)="onChange()"/>
 		</div>
 	`
 })
 
 export class TaskItemComponent{
-	name: string;
-	isComplete: boolean;
+	public task: Task;
 
 	constructor(){
-		this.name = "";
-		this.isComplete = false;
+		
+	}
+
+	onChange(){
+		console.log(this.task.name);
 	}
 }

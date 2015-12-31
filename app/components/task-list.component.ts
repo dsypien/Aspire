@@ -4,6 +4,7 @@ import {CreateTaskComponent} from './create-task.component';
 import {OnInit} from 'angular2/core';
 import {LocalTasksService} from '../services/local-tasks.service';
 import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
+import {Task} from '../interfaces/Task.Interface';
 
 @Component({
 	selector: 'task-list',
@@ -18,7 +19,7 @@ import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
 })
 
 export class TaskListComponent{
-	public tasks: Array<any>;
+	public tasks: Task[];
 
 	constructor(private _taskService: LocalTasksService) {
 	}
