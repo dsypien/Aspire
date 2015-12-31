@@ -7,7 +7,7 @@ import {Task} from '../interfaces/Task.Interface';
 	template: `
 		<div class="task-item">
 			<input type="checkbox">
-			<input [(ngModel)]="task.name" (change)="onChange()"/>
+			<input #tasktxt [(ngModel)]="task.name" (keyup)="onChange(tasktxt)"/>
 		</div>
 	`
 })
@@ -19,7 +19,8 @@ export class TaskItemComponent{
 		
 	}
 
-	onChange(){
+	onChange(tasktxt){
 		console.log(this.task.name);
+		console.log(tasktxt.value);
 	}
 }
