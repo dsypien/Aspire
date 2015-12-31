@@ -21,8 +21,7 @@ import {Task} from '../interfaces/Task.Interface';
 export class TaskListComponent{
 	public tasks: Task[];
 
-	constructor(private _taskService: LocalTasksService) {
-	}
+	constructor(private _taskService: LocalTasksService) {}
 
 	ngOnInit(){
 		this.getTasks();

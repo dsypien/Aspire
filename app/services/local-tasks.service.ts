@@ -36,6 +36,17 @@ export class LocalTasksService implements TaskServiceInterface{
 		return this._tasks;
 	}
 
+	private getTaskByID(ary : Array<any>, value: string){
+		var aryLength = ary.length;
+		for (var i = 0; i < aryLength; i++) {
+			if (ary[i].id === value) {
+				return ary[i];
+			}
+		}
+
+		return null;
+	}
+
 	createTask(Task){
 		var tasks = this.getTasksObject();
 
@@ -49,6 +60,13 @@ export class LocalTasksService implements TaskServiceInterface{
 	}
 	
 	updateTask(Task){
+		var tasks = this.getTasksObject();
+		var task = this.getTaskByID(tasks.items, Task.id);
+
+		task = Task;
+
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+
 		this._isDirty = true;
 	}
 	
@@ -56,5 +74,4 @@ export class LocalTasksService implements TaskServiceInterface{
 
 		this._isDirty = true;
 	}
-	
 }

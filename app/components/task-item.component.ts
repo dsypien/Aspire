@@ -1,5 +1,6 @@
 import {Component} from 'angular2/core';
 import {Task} from '../interfaces/Task.Interface';
+import {LocalTasksService} from '../services/local-tasks.service';
 
 @Component({
 	selector: 'task-item',
@@ -15,12 +16,9 @@ import {Task} from '../interfaces/Task.Interface';
 export class TaskItemComponent{
 	public task: Task;
 
-	constructor(){
-		
-	}
+	constructor(private _localTaskService : LocalTasksService){}
 
 	onChange(tasktxt){
-		console.log(this.task.name);
-		console.log(tasktxt.value);
+		this._localTaskService.updateTask(this.task);
 	}
 }
