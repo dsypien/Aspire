@@ -7,8 +7,9 @@ import {LocalTasksService} from '../services/local-tasks.service';
 	inputs: ['task'],
 	template: `
 		<div class="task-item">
-			<input type="checkbox">
-			<input #tasktxt [(ngModel)]="task.name" (keyup)="onChange(tasktxt)"/>
+			<input [(ngModel)]="task.isComplete" (change)="update()" type="checkbox">
+			<input [(ngModel)]="task.name" (keyup)="update()"/>
+			<button (click)="delete()">Delete</button>
 		</div>
 	`
 })
@@ -18,7 +19,11 @@ export class TaskItemComponent{
 
 	constructor(private _localTaskService : LocalTasksService){}
 
-	onChange(tasktxt){
+	update(){
 		this._localTaskService.updateTask(this.task);
+	}
+
+	delete(){
+		this._localTaskService.deleteTask(this.task.id);
 	}
 }

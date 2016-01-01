@@ -1,6 +1,5 @@
 import {Injectable} from 'angular2/core';
 import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
-import {TaskMap} from '../interfaces/TaskMap.Interface';
 import {Task} from '../interfaces/Task.Interface';
 
 @Injectable()
@@ -36,37 +35,48 @@ export class LocalTasksService implements TaskServiceInterface{
 		return this._tasks;
 	}
 
-	private getTaskByID(ary : Array<any>, value: string){
+	private getTaskIndex(ary : Array<any>, value: number){
 		var aryLength = ary.length;
 		for (var i = 0; i < aryLength; i++) {
 			if (ary[i].id === value) {
-				return ary[i];
+				return i;
 			}
 		}
 
 		return null;
 	}
 
-	createTask(Task){
+	private getTaskByID(ary: Array<any>, value: number) {
+		var index = this.getTaskIndex(ary, value);
+
+		if(index !== null){
+			return ary[index];
+		}
+		else{
+			return null;
+		}
+	}
+
+	createTask(pTask){
 		var tasks = this.getTasksObject();
 
-		Task.id = tasks.nextID;
+		pTask.id = tasks.nextID;
 		tasks.nextID++;
-		tasks.items.push(Task);
+		tasks.items.push(pTask);
 
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 
 		this._isDirty = true;
 	}
 	
-	updateTask(Task){
+	updateTask(pTask){
 		var tasks = this.getTasksObject();
-		var task = this.getTaskByID(tasks.items, Task.id);
+		var task = this.getTaskByID(tasks.items, pTask.id);
 
 		// Do a deep copy
 		// To Do : Should have a better way to do a deep copy on objects
-		task.name = Task.name;
-		task.isComplete = Task.isComplete;
+		task.name = pTask.name;
+		task.isComplete = pTask.isComplete;
 
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 
@@ -74,6 +84,14 @@ export class LocalTasksService implements TaskServiceInterface{
 	}
 	
 	deleteTask(id: number){
+		var tasks = this.getTasksObject();
+		var index = this.getTaskIndex(tasks.items, id);
+
+		if(index !== null){
+			tasks.items.splice(index, 1);
+		}
+
+		localStorage.setItem('tasks', JSON.stringify(tasks));
 
 		this._isDirty = true;
 	}
