@@ -63,7 +63,10 @@ export class LocalTasksService implements TaskServiceInterface{
 		var tasks = this.getTasksObject();
 		var task = this.getTaskByID(tasks.items, Task.id);
 
-		task = Task;
+		// Do a deep copy
+		// To Do : Should have a better way to do a deep copy on objects
+		task.name = Task.name;
+		task.isComplete = Task.isComplete;
 
 		localStorage.setItem('tasks', JSON.stringify(tasks));
 
