@@ -10,8 +10,8 @@ import {Task} from '../interfaces/Task.Interface';
 	selector: 'task-list',
 	template: `
 		<ul>
-			<task-item *ngFor="#task of tasks" [task]="task"></task-item>
-			<create-task></create-task>
+			<task-item (dirty)="taskListUpdated()" *ngFor="#task of tasks" [task]="task"></task-item>
+			<create-task (taskCreated)="taskListUpdated()"></create-task>
 		</ul>
 	`,
 	directives: [TaskItemComponent, CreateTaskComponent],
@@ -24,6 +24,10 @@ export class TaskListComponent{
 	constructor(private _taskService: LocalTasksService) {}
 
 	ngOnInit(){
+		this.getTasks();
+	}
+
+	taskListUpdated(){
 		this.getTasks();
 	}
 

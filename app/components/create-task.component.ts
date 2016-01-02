@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, EventEmitter, Output} from 'angular2/core';
 import {LocalTasksService} from '../services/local-tasks.service';
 import {Task} from '../interfaces/Task.interface';
 
@@ -15,6 +15,8 @@ import {Task} from '../interfaces/Task.interface';
 })
 
 export class CreateTaskComponent{
+	@Output() taskCreated = new EventEmitter();
+
 	constructor(private _localTaskService : LocalTasksService){
 
 	}
@@ -26,5 +28,9 @@ export class CreateTaskComponent{
 		}
 
 		this._localTaskService.createTask(task);
+		this.taskCreated.emit('event');
+
+		taskName.value = null;
+
 	}
 }
