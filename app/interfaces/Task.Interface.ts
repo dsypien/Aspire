@@ -1,4 +1,4 @@
-export interface Task{
+export class TaskInterface{
 	id: number;
 	date: Date;
 	isComplete: boolean;

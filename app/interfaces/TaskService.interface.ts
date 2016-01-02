@@ -1,8 +1,8 @@
-import {Task} from './Task.Interface';
+import {TaskInterface} from './Task.Interface';
 
 export interface TaskServiceInterface{
 	getTasks();
-	createTask(Task);
-	updateTask(Task);
+	createTask(TaskInterface);
+	updateTask(TaskInterface);
 	deleteTask(id: number);
 }

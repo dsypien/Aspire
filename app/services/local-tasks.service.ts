@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {TaskServiceInterface} from '../interfaces/TaskService.Interface';
-import {Task} from '../interfaces/Task.Interface';
+import {Task} from '../common/Task';
 
 @Injectable()
 export class LocalTasksService implements TaskServiceInterface{
@@ -8,7 +8,7 @@ export class LocalTasksService implements TaskServiceInterface{
 	private _tasks: { nextID: number, items: Array<any> };
 
 	getTasks(){		
-		var tasks = this.getTasksObject();
+		var tasks = this._getTasksObject();
 
 		if (tasks && tasks.items.length > 0) {
 			return Promise.resolve(tasks.items);
@@ -18,7 +18,7 @@ export class LocalTasksService implements TaskServiceInterface{
 		}
 	}
 
-	private getTasksObject(){
+	private _getTasksObject(){
 		if (this._isDirty) {
 			var tasks = localStorage.getItem('tasks');
 
@@ -35,7 +35,11 @@ export class LocalTasksService implements TaskServiceInterface{
 		return this._tasks;
 	}
 
-	private getTaskIndex(ary : Array<any>, value: number){
+	private _updateTasksObject(tasks: Object){
+		localStorage.setItem('tasks', JSON.stringify(tasks));
+	}
+
+	private _getTaskIndex(ary : Array<Task>, value: number){
 		var aryLength = ary.length;
 		for (var i = 0; i < aryLength; i++) {
 			if (ary[i].id === value) {
@@ -46,8 +50,8 @@ export class LocalTasksService implements TaskServiceInterface{
 		return null;
 	}
 
-	private getTaskByID(ary: Array<any>, value: number) {
-		var index = this.getTaskIndex(ary, value);
+	private _getTaskByID(ary: Array<Task>, value: number) {
+		var index = this._getTaskIndex(ary, value);
 
 		if(index !== null){
 			return ary[index];
@@ -58,40 +62,40 @@ export class LocalTasksService implements TaskServiceInterface{
 	}
 
 	createTask(pTask){
-		var tasks = this.getTasksObject();
+		var tasks = this._getTasksObject();
 
 		pTask.id = tasks.nextID;
 		tasks.nextID++;
 		tasks.items.push(pTask);
 
-		localStorage.setItem('tasks', JSON.stringify(tasks));
+		this._updateTasksObject(tasks);
 
 		this._isDirty = true;
 	}
 	
 	updateTask(pTask){
-		var tasks = this.getTasksObject();
-		var task = this.getTaskByID(tasks.items, pTask.id);
+		var tasks = this._getTasksObject();
+		var task = this._getTaskByID(tasks.items, pTask.id);
 
 		// Do a deep copy
 		// To Do : Should have a better way to do a deep copy on objects
 		task.name = pTask.name;
 		task.isComplete = pTask.isComplete;
 
-		localStorage.setItem('tasks', JSON.stringify(tasks));
+		this._updateTasksObject(tasks);
 
 		this._isDirty = true;
 	}
 	
 	deleteTask(id: number){
-		var tasks = this.getTasksObject();
-		var index = this.getTaskIndex(tasks.items, id);
+		var tasks = this._getTasksObject();
+		var index = this._getTaskIndex(tasks.items, id);
 
 		if(index !== null){
 			tasks.items.splice(index, 1);
 		}
 
-		localStorage.setItem('tasks', JSON.stringify(tasks));
+		this._updateTasksObject(tasks);
 
 		this._isDirty = true;
 	}

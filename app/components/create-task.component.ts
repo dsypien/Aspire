@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Output} from 'angular2/core';
 import {LocalTasksService} from '../services/local-tasks.service';
-import {Task} from '../interfaces/Task.interface';
+import {TaskInterface} from '../interfaces/Task.interface';
 
 @Component({
 	selector: 'create-task',

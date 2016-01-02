@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from 'angular2/core';
-import {Task} from '../interfaces/Task.Interface';
+import {TaskInterface} from '../interfaces/Task.Interface';
 import {LocalTasksService} from '../services/local-tasks.service';
 
 @Component({
@@ -15,7 +15,7 @@ import {LocalTasksService} from '../services/local-tasks.service';
 })
 
 export class TaskItemComponent{
-	public task: Task;
+	public task: TaskInterface;
 
 	@Output() dirty = new EventEmitter();
 
@@ -23,7 +23,6 @@ export class TaskItemComponent{
 
 	update(){
 		this._localTaskService.updateTask(this.task);
-		this.dirty.emit('event');
 	}
 
 	delete(){
