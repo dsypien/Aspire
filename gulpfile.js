@@ -66,7 +66,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('compile', ['clean', 'exec-tsc'], function(){
-	gulp.src(['./app/boot.js', './app/*/*.js'])
+	gulp.src(['./app/boot.js', './app/*/*.js', './app/*/*.html'])
 		.pipe(gulp.dest('./public/app'));
 
 	gulp.src(['./app/*.html'])
@@ -92,7 +92,7 @@ gulp.task('compile-dist', ['clean'], function(){
 });
  
 gulp.task('sass', function () {
-	gulp.src('./app/**/*.scss')
+	gulp.src('./app/styles/*.scss')
 	.pipe(sass().on('error', sass.logError))
 		.pipe(concat('bundled.css'))
 		.pipe(gulp.dest('./public'));
