@@ -4,10 +4,7 @@ import {TaskListComponent} from './task-list.component';
 @Component({
     selector: 'my-app',
     directives: [TaskListComponent],
-    template: `
-    	<h1>Daily Tasks </h1>
-    	<task-list></task-list>
-    `
+    templateUrl: '/app/components/app.component.html'
 })
 
 export class AppComponent { }
