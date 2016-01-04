@@ -1,0 +1,14 @@
+@import '_reset';
+@import '_colorPalette';
+@import '_app.component';
+
+html,
+body {
+    width:100%;
+    height:100%;
+}
+
+body{
+	background: url(imgs/furley_bg.png);
+	overflow-x: hidden;
+}
