@@ -1,0 +1,4 @@
+<ul>
+	<task-item (dirty)="taskListUpdated()" *ngFor="#task of tasks" [task]="task"></task-item>
+	<create-task (taskCreated)="taskListUpdated()"></create-task>
+</ul>

@@ -4,14 +4,7 @@ import {TaskInterface} from '../interfaces/Task.interface';
 
 @Component({
 	selector: 'create-task',
-	template: `
-		<div class='create-task'>
-			<input type='text' placeholder="Whats your goal?" #taskName >
-			<button (click)="createTask(taskName.value)"
-					[disabled]="taskName.Value === ''"> Create Task
-			</button>
-		</div>	
-	`
+	templateUrl: '/app/components/create-task.component.html'
 })
 
 export class CreateTaskComponent{

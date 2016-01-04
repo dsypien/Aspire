@@ -8,12 +8,7 @@ import {TaskInterface} from '../interfaces/Task.Interface';
 
 @Component({
 	selector: 'task-list',
-	template: `
-		<ul>
-			<task-item (dirty)="taskListUpdated()" *ngFor="#task of tasks" [task]="task"></task-item>
-			<create-task (taskCreated)="taskListUpdated()"></create-task>
-		</ul>
-	`,
+	templateUrl: '/app/components/task-list.component.html',
 	directives: [TaskItemComponent, CreateTaskComponent],
 	providers: [LocalTasksService]
 })

@@ -5,13 +5,7 @@ import {LocalTasksService} from '../services/local-tasks.service';
 @Component({
 	selector: 'task-item',
 	inputs: ['task'],
-	template: `
-		<div class="task-item">
-			<input [(ngModel)]="task.isComplete" (change)="update()" type="checkbox">
-			<input [(ngModel)]="task.name" (keyup)="update()"/>
-			<button (click)="delete()">Delete</button>
-		</div>
-	`
+	templateUrl: '/app/components/task-item.component.html'
 })
 
 export class TaskItemComponent{
