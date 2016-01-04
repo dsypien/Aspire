@@ -72,9 +72,8 @@ gulp.task('compile', ['clean', 'exec-tsc'], function(){
 	gulp.src(['./app/*.html'])
 		.pipe(gulp.dest('./public/'));
 
-	gulp.src(['./app/assets/*'])
-		.pipe(gulp.dest('./public/app'));
-
+	gulp.src(['./app/assets/imgs/*'])
+		.pipe(gulp.dest('./public/imgs'));
 });
 
 gulp.task('compile-dist', ['clean'], function(){
@@ -92,7 +91,7 @@ gulp.task('compile-dist', ['clean'], function(){
 });
  
 gulp.task('sass', function () {
-	gulp.src('./app/styles/*.scss')
+	gulp.src('./app/assets/styles/*.scss')
 	.pipe(sass().on('error', sass.logError))
 		.pipe(concat('bundled.css'))
 		.pipe(gulp.dest('./public'));
