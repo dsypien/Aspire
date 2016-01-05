@@ -2,7 +2,7 @@
   <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-addon">
-        <input [(ngModel)]="task.isComplete" (change)="update()" type="checkbox">
+        <input [(ngModel)]="task.isComplete" (click)="updateComplete($event)" type="checkbox">
       </span>
       <input type="text" [(ngModel)]="task.name" (keyup)="update()" class="form-control">
       <span class="input-group-btn">
