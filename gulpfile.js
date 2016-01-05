@@ -1,5 +1,4 @@
 var gulp = require('gulp'),
-	watch = require('gulp-watch'),
 	browser = require('browser-sync').create(),
 	batch = require('gulp-batch'),
 	sass = require('gulp-sass'),
@@ -11,10 +10,11 @@ var gulp = require('gulp'),
 	clean = require('gulp-clean'),
 	jshint = require('gulp-jshint'),
 	typescript = require('gulp-tsc'),
-	child_process = require('child_process');
+	child_process = require('child_process'),
+	livereload = require('gulp-livereload');
 
 gulp.task('default', 
-	['build']
+	['watch']
 );
 
 gulp.task('build', 
@@ -51,8 +51,9 @@ gulp.task('lint', function(){
 		.pipe(jshint.reporter('fail'));
 });
 
-gulp.task('watch', function () {    
-	watch(['./app/*/*.ts', './app/**/*.scss'], batch(function (events, done) {
+gulp.task('watch', ['build'], function () {  
+	livereload.listen();  
+	gulp.watch(['./app/*/*.ts', './app/**/*.html','./app/**/*.scss'], batch(function (events, done) {
 		gulp.start('build', done);
 	}));
 });
