@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from 'angular2/core';
 import {LocalGoalsService} from '../services/local-goals.service';
 import {GoalInterface} from '../interfaces/Goal.interface';
+import {Goal} from '../common/Goal';
 
 @Component({
 	selector: 'create-goal',
@@ -15,10 +16,7 @@ export class CreateGoalComponent{
 	}
 
 	createGoal(goalName){
-		var goal = {
-			isComplete: false,
-			name: goalName
-		}
+		var goal = new Goal(null, false, goalName);
 
 		this._localGoalService.create(goal);
 		this.goalCreated.emit('event');

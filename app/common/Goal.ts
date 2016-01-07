@@ -2,20 +2,17 @@ import {GoalInterface} from '../interfaces/Goal.interface';
 
 export class Goal implements GoalInterface{
 	id: number;
-	date: Date;
 	isComplete: boolean;
 	name: string;
 
-	constructor(t:GoalInterface){
-		this.id = t.id;
-		this.date = t.date;
-		this.isComplete = t.isComplete;
-		this.name = t.name;
+	constructor(id, isComplete, name){
+		this.id = id;
+		this.isComplete = isComplete;
+		this.name = name;
 	}
 
 	Clone(t:Goal){
 		this.id = t.id;
-		this.date = t.date;
 		this.isComplete = t.isComplete;
 		this.name = t.name;
 	}

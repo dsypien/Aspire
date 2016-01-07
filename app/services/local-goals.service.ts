@@ -7,18 +7,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 	private _isDirty: boolean = true;
 	private _goals: { nextID: number, items: Array<any> };
 
-	get(){		
-		var goals = this._getGoalsObject();
-
-		if (goals && goals.items.length > 0) {
-			return Promise.resolve(goals.items);
-		}
-		else{
-			return Promise.resolve(null);
-		}
-	}
-
-	private _getGoalsObject(){
+	private _getGoalsFromStore() {
 		if (this._isDirty) {
 			var goals = localStorage.getItem('goals');
 
@@ -35,11 +24,49 @@ export class LocalGoalsService implements GoalServiceInterface{
 		return this._goals;
 	}
 
-	private _updateGoalsObject(goals: Object){
+	private _getGoalMapFromStore(){
+		var map = localStorage.getItem('goalMap');
+
+		if(map === null){
+			return null;
+		}
+		else{
+			return JSON.parse(map);
+		}
+	}
+
+	private _getCurrentGoalsFromStore(){
+		var current = localStorage.getItem('currentGoals');
+
+		if(current === null){
+			return null;
+		}
+		else{
+			return JSON.parse(current);
+		}
+	}
+
+	private _getDailyActivtyFromStore(){
+		return localStorage.getItem('dailyActivity');
+	}
+
+	private _updateGoalsInStore(goals: Object) {
 		localStorage.setItem('goals', JSON.stringify(goals));
 	}
 
-	private _getGoalIndex(ary : Array<Goal>, value: number){
+	private _updateMapGoalsInStore(map: Object){
+		localStorage.setItem('goalMap', JSON.stringify(map));
+	}
+
+	private _updateCurrentGoalsInStore(current: Object) {
+		localStorage.setItem('currentGoals', JSON.stringify(current));
+	}
+
+	private _updateDailyActivityInStore(value: Object){
+		localStorage.setItem('dailyActivity', JSON.stringify(value));
+	}
+
+	private _getGoalIndex(ary: Array<Goal>, value: number) {
 		var aryLength = ary.length;
 		for (var i = 0; i < aryLength; i++) {
 			if (ary[i].id === value) {
@@ -53,50 +80,112 @@ export class LocalGoalsService implements GoalServiceInterface{
 	private _getGoalByID(ary: Array<Goal>, value: number) {
 		var index = this._getGoalIndex(ary, value);
 
-		if(index !== null){
+		if (index !== null) {
 			return ary[index];
 		}
-		else{
+		else {
 			return null;
 		}
 	}
 
-	create(pGoal){
-		var goals = this._getGoalsObject();
+	get(){		
+		var goals = this._getGoalsFromStore();
 
+		if (goals && goals.items.length > 0) {
+			return Promise.resolve(goals.items);
+		}
+		else{
+			return Promise.resolve(null);
+		}
+	}
+
+	create(pGoal : Goal){
+		var goals = this._getGoalsFromStore();
+		var map = this._getGoalMapFromStore();
+		var currentGoals = this._getCurrentGoalsFromStore();
+
+		// Update Map
+		if (!map) {
+			map = {};
+		}
+		map[goals.nextID] = goals.items.length;
+
+		// Update Current Goals
+		if(!currentGoals){
+			currentGoals = {};
+		}
+		currentGoals[goals.nextID] = "";
+
+		//Append ID to goal 
 		pGoal.id = goals.nextID;
-		goals.nextID++;
 		goals.items.push(pGoal);
+		goals.nextID++;
 
-		this._updateGoalsObject(goals);
+		// Update Daily Activity
+		var dailyActivity = this._getDailyActivtyFromStore();
+		var date = new Date();
+		var year = date.getFullYear().toString();
+		var month = (date.getMonth() + 1).toString();
+		var day = date.getDate().toString();
+
+		if (dailyActivity === null) {
+			dailyActivity = {};
+			dailyActivity[year] = {};
+			dailyActivity[year][month] = {};
+			dailyActivity[year][month][day] = {};
+		}
+		
+		dailyActivity[year][month][day][pGoal.id] = pGoal;
+
+		this._updateGoalsInStore(goals);
+		this._updateMapGoalsInStore(map);
+		this._updateCurrentGoalsInStore(currentGoals);
+		this._updateDailyActivityInStore(dailyActivity);
 
 		this._isDirty = true;
 	}
 	
 	update(pGoal){
-		var goals = this._getGoalsObject();
+		var goals = this._getGoalsFromStore();
+		// change how we get goal 
 		var goal = this._getGoalByID(goals.items, pGoal.id);
 
-		// Do a deep copy
-		// To Do : Should have a better way to do a deep copy on objects
 		goal.name = pGoal.name;
-		goal.isComplete = pGoal.isComplete;
 
-		this._updateGoalsObject(goals);
+		this._updateGoalsInStore(goals);
 
 		this._isDirty = true;
 	}
 	
+	//Deprecated
 	delete(id: number){
-		var goals = this._getGoalsObject();
-		var index = this._getGoalIndex(goals.items, id);
+		// var goals = this._getGoalsFromStore();
+		// var index = this._getGoalIndex(goals.items, id);
 
-		if(index !== null){
-			goals.items.splice(index, 1);
-		}
+		// if(index !== null){
+		// 	goals.items.splice(index, 1);
+		// }
 
-		this._updateGoalsObject(goals);
+		// this._updateGoalsInStore(goals);
 
-		this._isDirty = true;
+		// this._isDirty = true;
+	}
+
+	archive(id){
+ 		//-->  remove from currentGoals
+	}
+
+	updateTodaysGoal(pGoal){
+		//TODO
+
+		// update dailyActivity for todays date
+	}
+
+	getTodaysGoals(){
+		//TODO
+
+		//get CurrentGoals 
+		//--> details from goal table 
+		//--> daily activity to see if complete
 	}
 }

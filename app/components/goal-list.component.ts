@@ -27,7 +27,7 @@ export class GoalListComponent{
 	}
 
 	getGoals(){
-		this._goalService.getGoals().then(
+		this._goalService.get().then(
 			goals=> {
 				console.log(goals);
 				this.goals = goals
