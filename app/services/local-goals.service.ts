@@ -135,7 +135,9 @@ export class LocalGoalsService implements GoalServiceInterface{
 			dailyActivity[year][month][day] = {};
 		}
 		
-		dailyActivity[year][month][day][pGoal.id] = pGoal;
+		dailyActivity[year][month][day][pGoal.id] = {
+			isComplete: pGoal.isComplete
+		};
 
 		this._updateGoalsInStore(goals);
 		this._updateMapGoalsInStore(map);

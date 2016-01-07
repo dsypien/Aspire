@@ -15,6 +15,12 @@ export class CreateGoalComponent{
 
 	}
 
+	onKeyUp(event, goalName){
+		if(event.keyCode === 13 && goalName != ""){
+			this.createGoal(goalName);
+		}
+	}
+
 	createGoal(goalName){
 		var goal = new Goal(null, false, goalName);
 
