@@ -3,13 +3,13 @@
     <div class="input-group">
       <input type="text" type='text' 
              placeholder="Whats your goal?" 
-             #goalName  
-             (keyup)="onKeyUp($event, goalName.value)"
+             [(ngModel)]="goalName"  
+             (keyup)="onKeyUp($event)"
              class="form-control">
       <span class="input-group-btn">
         <button class="btn btn-default btn-primary" 
                 (click)="createGoal(goalName.value)"
-                [disabled]="goalName.Value === ''"
+                [disabled]="goalName === ''"
                 type="button">+</button>
       </span>
     </div><!-- /input-group -->

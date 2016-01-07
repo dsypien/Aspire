@@ -47,7 +47,14 @@ export class LocalGoalsService implements GoalServiceInterface{
 	}
 
 	private _getDailyActivtyFromStore(){
-		return localStorage.getItem('dailyActivity');
+		var dailyActivity = localStorage.getItem('dailyActivity');
+
+		if(dailyActivity === null){
+			return null;
+		}
+		else{
+			return JSON.parse(dailyActivity);
+		}
 	}
 
 	private _updateGoalsInStore(goals: Object) {

@@ -10,24 +10,25 @@ import {Goal} from '../common/Goal';
 
 export class CreateGoalComponent{
 	@Output() goalCreated = new EventEmitter();
+	public goalName: string;
 
 	constructor(private _localGoalService : LocalGoalsService){
 
 	}
 
-	onKeyUp(event, goalName){
-		if(event.keyCode === 13 && goalName != ""){
-			this.createGoal(goalName);
+	onKeyUp(event){
+		if(event.keyCode === 13 && this.goalName != ""){
+			this.createGoal();
 		}
 	}
 
-	createGoal(goalName){
-		var goal = new Goal(null, false, goalName);
+	createGoal(){
+		var goal = new Goal(null, false, this.goalName);
 
 		this._localGoalService.create(goal);
 		this.goalCreated.emit('event');
 
-		goalName.value = null;
+		this.goalName = null;
 
 	}
 }
