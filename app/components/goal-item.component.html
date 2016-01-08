@@ -2,11 +2,11 @@
   <div class="col-lg-6">
     <div class="input-group">
       <span class="input-group-addon">
-        <input [(ngModel)]="goal.isComplete" (click)="updateComplete($event)" type="checkbox">
+        <input [(ngModel)]="goal.isComplete" (click)="updateTodaysGoal($event)" type="checkbox">
       </span>
       <input type="text" [(ngModel)]="goal.name" (keyup)="update()" class="form-control">
       <span class="input-group-btn">
-        <button class="btn btn-default btn-danger" (click)="delete()" type="button">-</button>
+        <button class="btn btn-default btn-danger" (click)="archive()" type="button">-</button>
       </span>
     </div><!-- /input-group -->
   </div><!-- /.col-lg-6 -->	

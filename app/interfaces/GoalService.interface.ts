@@ -5,7 +5,6 @@ export interface GoalServiceInterface{
 	get();
 	create(GoalInterface);
 	update(GoalInterface);
-	delete(id: number);
 	archive(id: number);
 
 	// Daily Goals

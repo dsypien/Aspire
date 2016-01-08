@@ -18,16 +18,16 @@ export class GoalItemComponent{
 
 	constructor(private _localGoalService : LocalGoalsService){}
 
-	update(){
+	update() {
 		this._localGoalService.update(this.goal);
 	}
 
-	delete(){
-		this._localGoalService.delete(this.goal.id);
+	archive(){
+		this._localGoalService.archive(this.goal.id);
 		this.dirty.emit('event');
 	}
 
-	updateComplete(event) {
+	updateTodaysGoal(event) {
 		this.goal.isComplete = event.srcElement.checked;
 		this._localGoalService.update(this.goal);
 	}

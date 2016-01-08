@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {Goal} from '../common/Goal';
+import {TodaysDate} from '../common/TodaysDate';
 
 @Injectable()
 export class LocalGoalsService implements GoalServiceInterface{
@@ -57,6 +58,24 @@ export class LocalGoalsService implements GoalServiceInterface{
 		}
 	}
 
+	private _getGoalByID(index: number){
+		this._getGoalsFromStore();
+		var map = this._getGoalMapFromStore();
+
+		return map[index];
+	}
+
+	private _getGoalIndex(ary: Array<Goal>, value: number) {
+		var aryLength = ary.length;
+		for (var i = 0; i < aryLength; i++) {
+			if (ary[i].id === value) {
+				return i;
+			}
+		}
+
+		return null;
+	}
+
 	private _updateGoalsInStore(goals: Object) {
 		localStorage.setItem('goals', JSON.stringify(goals));
 	}
@@ -71,28 +90,6 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 	private _updateDailyActivityInStore(value: Object){
 		localStorage.setItem('dailyActivity', JSON.stringify(value));
-	}
-
-	private _getGoalIndex(ary: Array<Goal>, value: number) {
-		var aryLength = ary.length;
-		for (var i = 0; i < aryLength; i++) {
-			if (ary[i].id === value) {
-				return i;
-			}
-		}
-
-		return null;
-	}
-
-	private _getGoalByID(ary: Array<Goal>, value: number) {
-		var index = this._getGoalIndex(ary, value);
-
-		if (index !== null) {
-			return ary[index];
-		}
-		else {
-			return null;
-		}
 	}
 
 	get(){		
@@ -128,36 +125,17 @@ export class LocalGoalsService implements GoalServiceInterface{
 		goals.items.push(pGoal);
 		goals.nextID++;
 
-		// Update Daily Activity
-		var dailyActivity = this._getDailyActivtyFromStore();
-		var date = new Date();
-		var year = date.getFullYear().toString();
-		var month = (date.getMonth() + 1).toString();
-		var day = date.getDate().toString();
-
-		if (dailyActivity === null) {
-			dailyActivity = {};
-			dailyActivity[year] = {};
-			dailyActivity[year][month] = {};
-			dailyActivity[year][month][day] = {};
-		}
-		
-		dailyActivity[year][month][day][pGoal.id] = {
-			isComplete: pGoal.isComplete
-		};
-
+		this.updateTodaysGoal(pGoal);
 		this._updateGoalsInStore(goals);
 		this._updateMapGoalsInStore(map);
 		this._updateCurrentGoalsInStore(currentGoals);
-		this._updateDailyActivityInStore(dailyActivity);
 
 		this._isDirty = true;
 	}
 	
 	update(pGoal){
 		var goals = this._getGoalsFromStore();
-		// change how we get goal 
-		var goal = this._getGoalByID(goals.items, pGoal.id);
+		var goal = this._getGoalByID(pGoal.id);
 
 		goal.name = pGoal.name;
 
@@ -165,36 +143,78 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 		this._isDirty = true;
 	}
-	
-	//Deprecated
-	delete(id: number){
-		// var goals = this._getGoalsFromStore();
-		// var index = this._getGoalIndex(goals.items, id);
 
-		// if(index !== null){
-		// 	goals.items.splice(index, 1);
-		// }
+	archive(id:number){
+		var currentGoals = this._getCurrentGoalsFromStore();
 
-		// this._updateGoalsInStore(goals);
-
-		// this._isDirty = true;
-	}
-
-	archive(id){
- 		//-->  remove from currentGoals
+		delete currentGoals[id];
 	}
 
 	updateTodaysGoal(pGoal){
-		//TODO
+		var dailyActivity = this._getDailyActivtyFromStore();
+		var d = new TodaysDate();
 
-		// update dailyActivity for todays date
+		if (dailyActivity === null) {
+			dailyActivity = {};
+			dailyActivity[d.year] = {};
+			dailyActivity[d.year][d.month] = {};
+			dailyActivity[d.year][d.month][d.day] = {};
+		}
+
+		dailyActivity[d.year][d.month][d.day][pGoal.id] = {
+			isComplete: pGoal.isComplete
+		};
+
+		this._updateDailyActivityInStore(dailyActivity);
 	}
 
 	getTodaysGoals(){
-		//TODO
+		var currentGoals = this._getCurrentGoalsFromStore();
+		var dailyActivity = this._getDailyActivtyFromStore();
+		var map = this._getGoalMapFromStore();
+		var goalsList = this._getGoalsFromStore().items;
 
-		//get CurrentGoals 
-		//--> details from goal table 
-		//--> daily activity to see if complete
+		var currentGoalIds = Object.keys(currentGoals);
+		var numGoals = currentGoalIds.length;
+
+		var d = new TodaysDate();
+		var todaysGoals = [];
+
+		for (var i = 0; i < numGoals; i++){
+			var curIdString = currentGoalIds[i].toString();
+
+			if(dailyActivity === undefined){
+				dailyActivity = {};
+			}
+
+			if(dailyActivity[d.year] === undefined){
+				dailyActivity[d.year] = {};
+			}
+
+			if (dailyActivity[d.year][d.month] === undefined) {
+				dailyActivity[d.year][d.month] = {};
+			}
+
+			if (dailyActivity[d.year][d.month][d.day] === undefined) {
+				dailyActivity[d.year][d.month][d.day] = {};
+			}
+
+			// Retrieve goal
+			var curGoal = goalsList[map[curIdString]];
+
+			// Copy activity properties if any logged for today
+			if(dailyActivity[d.year][d.month][d.day][curIdString] !== undefined){
+				var target = dailyActivity[d.year][d.month][d.day][curIdString];
+				for (var k in target) {
+					if (target.hasOwnProperty(k)) {
+						curGoal[k] = target[k];
+					}
+				}
+			}
+			
+			todaysGoals.push(curGoal);
+		}
+
+		return todaysGoals;
 	}
 }
