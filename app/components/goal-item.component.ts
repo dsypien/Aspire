@@ -29,6 +29,6 @@ export class GoalItemComponent{
 
 	updateTodaysGoal(event) {
 		this.goal.isComplete = event.srcElement.checked;
-		this._localGoalService.update(this.goal);
+		this._localGoalService.updateTodaysGoal(this.goal);
 	}
 }

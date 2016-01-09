@@ -2,29 +2,20 @@ import {Injectable} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {Goal} from '../common/Goal';
 import {TodaysDate} from '../common/TodaysDate';
+import {CurrentGoalsStore} from '../common/CurrentGoalsStore';
 
 @Injectable()
 export class LocalGoalsService implements GoalServiceInterface{
 	private _isDirty: boolean = true;
 	private _goals: { nextID: number, items: Array<any> };
 
+	//GoalsStore get
 	private _getGoalsFromStore() {
-		if (this._isDirty) {
-			var goals = localStorage.getItem('goals');
-
-			if (goals === null) {
-				this._goals = { nextID: 1, items: [] };
-			}
-			else {
-				this._goals = JSON.parse(goals);
-			}
-
-			this._isDirty = false;
-		}
-
-		return this._goals;
+		var goalStore = new CurrentGoalsStore();
+		return goalStore.get();
 	}
 
+	//GoalStore private function
 	private _getGoalMapFromStore(){
 		var map = localStorage.getItem('goalMap');
 
@@ -59,21 +50,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 	}
 
 	private _getGoalByID(index: number){
-		this._getGoalsFromStore();
+		var goals =  this._getGoalsFromStore();
 		var map = this._getGoalMapFromStore();
 
 		return map[index];
-	}
-
-	private _getGoalIndex(ary: Array<Goal>, value: number) {
-		var aryLength = ary.length;
-		for (var i = 0; i < aryLength; i++) {
-			if (ary[i].id === value) {
-				return i;
-			}
-		}
-
-		return null;
 	}
 
 	private _updateGoalsInStore(goals: Object) {
@@ -134,6 +114,9 @@ export class LocalGoalsService implements GoalServiceInterface{
 	}
 	
 	update(pGoal){
+		//Currently not working
+		//Move functionality to GoalStore.ts update
+
 		var goals = this._getGoalsFromStore();
 		var goal = this._getGoalByID(pGoal.id);
 
@@ -146,8 +129,9 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 	archive(id:number){
 		var currentGoals = this._getCurrentGoalsFromStore();
-
+		
 		delete currentGoals[id];
+		this._updateCurrentGoalsInStore(currentGoals);
 	}
 
 	updateTodaysGoal(pGoal){
@@ -156,8 +140,17 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 		if (dailyActivity === null) {
 			dailyActivity = {};
-			dailyActivity[d.year] = {};
+		}
+
+		if (dailyActivity[d.year] === undefined){
+		dailyActivity[d.year] = {};
+		}
+
+		if (dailyActivity[d.year][d.month] === undefined){
 			dailyActivity[d.year][d.month] = {};
+		}
+
+		if (dailyActivity[d.year][d.month][d.day] === undefined){
 			dailyActivity[d.year][d.month][d.day] = {};
 		}
 
@@ -212,9 +205,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 				}
 			}
 			
+			this.updateTodaysGoal(curGoal);
 			todaysGoals.push(curGoal);
 		}
 
-		return todaysGoals;
+		return Promise.resolve(todaysGoals);
 	}
 }

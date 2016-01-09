@@ -3,9 +3,9 @@ import {GoalInterface} from './Goal.Interface';
 export interface GoalServiceInterface{
 	// Goals
 	get();
-	create(GoalInterface);
-	update(GoalInterface);
-	archive(id: number);
+	create(GoalInterface) :void;
+	update(GoalInterface) :void;
+	archive(id: number) :void;
 
 	// Daily Goals
 	 updateTodaysGoal(GoalInterface);
