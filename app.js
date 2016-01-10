@@ -18,7 +18,7 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,6 +27,12 @@ app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 
 app.use('/', routes);
 app.use('/users', users);
+
+// required for passport
+app.use(session({ secret: 'z7Xd2Wb%3@cM90wp*dX@98Po@1^dMn14n2' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
