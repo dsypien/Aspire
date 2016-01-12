@@ -29,14 +29,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/node_modules',  express.static(__dirname + '/node_modules'));
-
 // required for passport
 app.use(session({ secret: 'z7Xd2Wb%3@cM90wp*dX@98Po@1^dMn14n2'})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+// Routes
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/node_modules',  express.static(__dirname + '/node_modules'));
 
 app.use('/', routes);
 app.use('/users', users);
