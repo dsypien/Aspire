@@ -3,6 +3,7 @@ import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {HomeComponent} from './home.component';
 import {Login} from './login.component';
+import {Register} from './register.component';
 
 @Component({
     selector: 'my-app',
@@ -17,8 +18,10 @@ import {Login} from './login.component';
 		component: HomeComponent,
 		useAsDefault: true
 	},
-	{path: '/login', name: 'Login', component: Login}
+	{path: '/login', name: 'Login', component: Login},
+	{path: '/register', name: 'Register', component: Register}
 ])
+
 export class AppComponent { 
 	constructor(){
 	}
