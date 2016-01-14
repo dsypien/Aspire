@@ -75,6 +75,7 @@ gulp.task('compile', ['clean', 'exec-tsc'], function(){
 
 	gulp.src(['./app/assets/imgs/*'])
 		.pipe(gulp.dest('./public/imgs'));
+
 });
 
 gulp.task('compile-dist', ['clean'], function(){
