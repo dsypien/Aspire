@@ -11,19 +11,20 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a [routerLink]="['Home']">Home</a></li>
         <li><a href="#about">Activity</a></li>
         <li><a href="#contact">Settings</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-       <a [routerLink]="['Home']">Home</a>
-       <a [routerLink]="['Login']">Heroes</a> 
-      <!--    <li><a href="Login">Login</a></li>
-        <li class="active"><a href="./">Register<span class="sr-only">(current) </span></a></li> -->
+        <li><a [routerLink]="['Login']">Login</a></li>
+        <li class="active"><a href="./">Register<span class="sr-only">(current) </span></a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
 </nav>
 
-<!-- <home></home> -->
-<router-outlet></router-outlet>
+<div class='container'>
+  <div class='jumbotron'>
+    <router-outlet></router-outlet>
+  </div>
+</div> 
