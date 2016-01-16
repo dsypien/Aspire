@@ -1,3 +1,3 @@
 module.exports = {
-	url: "mongodb://aspireSvc:%3@cM90wp*dX@98Po@1@ds041140.mongolab.com:41140/aspire"
+	url: "mongodb://AspireService:YeAhBo11111a5pir333@ds041140.mongolab.com:41140/aspire"
 };
