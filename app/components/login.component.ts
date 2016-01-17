@@ -8,6 +8,6 @@ import {RouterOutlet} from 'angular2/router';
 	templateUrl: '/app/components/login.component.html'
 })
 
-export class Login{
+export class LoginComponent{
 
 }
