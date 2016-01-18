@@ -14,7 +14,7 @@ var authRouter = require('./routes/auth');
 // DB setup
 var dbConfigUrl = require('./config/database.js').url;
 var dbSetup = require('./db/setup.js');
-var db = dbSetup(dbConfigUrl, passport);
+var db = dbSetup(dbConfigUrl, app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,6 +26,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use('/node_modules',  express.static(__dirname + '/node_modules'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // required for passport
 app.use(session({ secret: 'z7Xd2Wb%3@cM90wp*dX@98Po@1^dMn14n2'})); // session secret
@@ -36,11 +39,6 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 //require('./app-routes.js')(app, passport);
 
 app.use('/signup', authRouter);
-
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-app.use('/node_modules',  express.static(__dirname + '/node_modules'));
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

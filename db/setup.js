@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
-module.exports = function(connectionUrl, passport){
+module.exports = function(connectionUrl, app){
 	mongoose.connect(connectionUrl); // connect to our database
 
-	require('../config/passport')(passport);
+	require('../config/passport')(app);
 
 	mongoose.connection.on('connected', function () {  
 	  console.log('Mongoose default connection open to ' + connectionUrl);
