@@ -8,7 +8,7 @@ module.exports = function (){
 		passReqToCallback: true
 	},
 	function(req, email, password, done){
-		consoel.log("signing up");
+		console.log("signing up");
 		process.nextTick(function () {
 			User.findOne({ 'local.email' : email }, function(err, user){
 				if(err){
