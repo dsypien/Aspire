@@ -1,11 +1,11 @@
 import {Component } from 'angular2/core';
 import {RouterOutlet} from 'angular2/router';
-
+import {CalendarComponent} from './calendar.component';
 import {GoalListComponent} from './goal-list.component';
 
 @Component({
     selector: 'home',
-    directives: [GoalListComponent, RouterOutlet],
+    directives: [GoalListComponent, CalendarComponent, RouterOutlet],
     templateUrl: '/app/components/home.component.html'
 })
 

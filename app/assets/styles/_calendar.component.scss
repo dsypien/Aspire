@@ -1,0 +1,29 @@
+.calendar-cell{
+  display: table-cell;
+  height: 50px;
+  text-align: center;
+}
+
+.calendar-goal{
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    transition: background-color 0.4s ease;
+    color: #fff;
+    font-size: 48px;
+}
+
+.calendar-goal:hover{
+    background-color: #b3ffb3; /* #00cc00 */
+}
+
+.accomplished{
+    background-color: #00cc00 !important;
+}
+
+.todays-date label{
+    background-color: #000;
+    color: #fff;
+    border-radius: 45px;
+    padding: 12px;
+}

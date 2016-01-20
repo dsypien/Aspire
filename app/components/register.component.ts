@@ -23,14 +23,20 @@ export class RegisterComponent{
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-		this.http.post('/signup', params, {
+		this.http.post('/auth/signup', params, {
 			headers: headers
 		})
 			.map(res => res.json())
 			.subscribe(
-				data => console.dir(data),
-				err  => console.log(err),
-				()   => console.log("signup completed")
+				data => {
+					console.dir(data)
+				},
+				err  => {
+					console.log(err)
+				},
+				() => {
+					console.log("signup completed")
+				}
 			);
 
 		console.log('yay we signed up');
