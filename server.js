@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 var app = express();
-var flash    = require('connect-flash');
+var flash  = require('connect-flash');
 
 var authRouter = require('./routes/auth');
 
@@ -38,7 +38,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // Routes
 //require('./app-routes.js')(app, passport);
 
-app.use('/signup', authRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
