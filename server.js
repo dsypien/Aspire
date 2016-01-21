@@ -40,6 +40,12 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use('/auth', authRouter);
 
+app.get('*', function(req, res, next){
+   res.sendFile('index.html', { root: __dirname + "/public" });
+});
+
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
