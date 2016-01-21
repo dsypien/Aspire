@@ -1,4 +1,6 @@
-export class TodaysDate{
+import {IDate} from '../interfaces/Date.Interface';
+
+export class TodaysDate implements IDate{
 	year: string;
 	month: string;
 	day: string;

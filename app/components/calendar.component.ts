@@ -1,4 +1,5 @@
-import {Component, Injectable} from 'angular2/core';
+import {Component, Injectable, OnInit} from 'angular2/core';
+import {TodaysDate} from '../common/TodaysDate';'
 
 @Component({
 	selector: 'goal-calendar',
@@ -8,5 +9,13 @@ import {Component, Injectable} from 'angular2/core';
 @Injectable()
 
 export class CalendarComponent{
+	
 
+	ngOnInit(){
+
+	}
+
+	constructor(){
+
+	}
 }
