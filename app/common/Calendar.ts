@@ -1,5 +1,6 @@
 import {TodaysDate} from './TodaysDate';
-import {Date} from '../interfaces/Date.interface';
+import {IDate} from '../interfaces/Date.interface';
+import {SimpleDate} from '../common/SimpleDate';
 
 export class Calendar{
 	private months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -12,7 +13,7 @@ export class Calendar{
 		return this.months[month - 1];
 	}
 
-	getPreviousDate(date: IDate){
+	private getPreviousDate(date: IDate){
 		if(date.day === 1){
 			// yesterday was last day of previous year
 			if(date.month === 1){
@@ -22,7 +23,7 @@ export class Calendar{
 			}
 			else{
 				date.month--;
-				date.day = getDaysInMonth(date.month, date.year);				
+				date.day = this.getDaysInMonth(date.month, date.year);				
 			}
 		}
 		else{
@@ -32,7 +33,7 @@ export class Calendar{
 		return date;
 	}
 
-	getNextDate(date: IDate){
+	private getNextDate(date: IDate){
 		var daysInMonth = this.getDaysInMonth(date.month, date.year);
 
 		if(date.day === daysInMonth){
@@ -54,13 +55,15 @@ export class Calendar{
 	}
 
 	// get dates for current week
-	getDates(){
+	getDates() : IDate[]{
 		var date = new TodaysDate();
 		var week:IDate[] = [];
+		week.push(new SimpleDate(date));
 
-		for(var i = 0; i < 7; i++){
-			week.push(date);
-			date = this.getNextDate();
+
+		for(var i = 0; i < 6; i++){			
+			date = this.getNextDate(date);
+			week.push(new SimpleDate(date));
 		}
 
 		return week;

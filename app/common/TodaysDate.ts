@@ -1,14 +1,14 @@
 import {IDate} from '../interfaces/Date.Interface';
 
 export class TodaysDate implements IDate{
-	year: string;
-	month: string;
-	day: string;
+	year: number;
+	month: number;
+	day: number;
 
 	constructor(){
 		var date = new Date();
-		this.year = date.getFullYear().toString();
-		this.month = (date.getMonth() + 1).toString();
-		this.day = date.getDate().toString();
+		this.year = date.getFullYear();
+		this.month = (date.getMonth() + 1);
+		this.day = date.getDate();
 	}
 }
