@@ -55,9 +55,9 @@ export class Calendar{
 	}
 
 	// get dates for current week
-	getDates(interval:number) : IDate[]{
+	getDates(num:number) : IDate[]{
 		var date = new Date();
-		var numDays = interval -1;
+		var numDays = num -1;
 		var simpleDate;
 		var week:IDate[] = [];
 
@@ -68,7 +68,7 @@ export class Calendar{
 			month: date.getMonth() + 1,
 			day: date.getDate()
 		};
-		
+
 		week.push(new SimpleDate(simpleDate));
 
 		for(var i = 0; i < numDays; i++){

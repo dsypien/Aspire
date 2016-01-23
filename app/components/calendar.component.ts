@@ -18,9 +18,11 @@ export class CalendarComponent{
 	private calendar;
 	public goals: GoalInterface[];
 
+	constructor(private _goalService: LocalGoalsService) { }
+
 	ngOnInit(){
 		this.calendar = new Calendar();
-		this.week = this.calendar.getDates();
+		this.week = this.calendar.getDates(4);
 		this.getGoals();
 	}
 
@@ -32,5 +34,8 @@ export class CalendarComponent{
 		);	
 	}
 
-	constructor(private _goalService: LocalGoalsService){}
+	toggleGoalClick(goal, date) {
+		console.log(goal);
+		console.log(date);
+	}
 }

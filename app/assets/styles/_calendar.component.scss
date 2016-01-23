@@ -1,11 +1,12 @@
 .calendar{
     border-spacing: 0px;
+    margin: 30px -15px 0px -15px;
 }
 
 .calendar-cell{
-  display: table-cell;
-  height: 50px;
-  text-align: center;
+    display: table-cell;
+    height: 50px;
+    text-align: center;
 }
 
 .calendar-goal{
@@ -20,10 +21,12 @@
 }
 
 .calendar-detail{
-    border-right: 2px solid #777;
-    border-bottom: 1px solid #777;
     width: 150px;
     padding: 10px !important;
+}
+
+.calendar-icon{
+    font-size: 28px;
 }
 
 .calendar-goal:hover{
@@ -45,9 +48,10 @@
     padding: 5px;
     background-color: #333;
     color: #b3ffb3;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
 }
 
 goal-calendar{
-    display: block;
     padding: 40px 0px;
 }
