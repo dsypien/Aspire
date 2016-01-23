@@ -1,3 +1,7 @@
+.calendar{
+    border-spacing: 0px;
+}
+
 .calendar-cell{
   display: table-cell;
   height: 50px;
@@ -5,6 +9,7 @@
 }
 
 .calendar-goal{
+    border: white 1px solid;
     width: 80px;
     height: 80px;
     background-color: #ddd;
@@ -14,6 +19,9 @@
 }
 
 .calendar-detail{
+    border-right: 2px solid #777;
+    border-top: 1px solid #777;
+    border-bottom: 1px solid #777;
     width: 150px;
 }
 
@@ -30,4 +38,15 @@
     color: #fff;
     border-radius: 45px;
     padding: 12px;
+}
+
+.black-cell{
+    padding: 5px;
+    background-color: #333;
+    color: #b3ffb3;
+}
+
+goal-calendar{
+    display: block;
+    padding: 40px 0px;
 }
