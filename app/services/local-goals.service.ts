@@ -1,5 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
+import {GoalInterface} from '../interfaces/Goal.Interface';
+import {IDate} from '../interfaces/Date.Interface';
 import {Goal} from '../common/Goal';
 import {TodaysDate} from '../common/TodaysDate';
 import {CurrentGoalsStore} from '../common/CurrentGoalsStore';
@@ -44,7 +46,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 		goals.items.push(pGoal);
 		goals.nextID++;
 
-		this.updateTodaysGoal(pGoal);
+		this.updateDailyStatus(pGoal, null);
 		GoalStore.update(goals);
 		GoalStore.updateGoalMap(map);
 		CurrentGoalsStore.update(currentGoals);
@@ -52,7 +54,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 		this._isDirty = true;
 	}
 	
-	update(pGoal){
+	update(pGoal:GoalInterface){
 		var goals = GoalStore.get();
 		var map = GoalStore.getGoalMap();
 		var goal = goals.items[map[pGoal.id]];
@@ -71,9 +73,12 @@ export class LocalGoalsService implements GoalServiceInterface{
 		CurrentGoalsStore.update(currentGoals);
 	}
 
-	updateTodaysGoal(pGoal){
+	updateDailyStatus(pGoal:GoalInterface, d:IDate){
 		var dailyActivity = DailyActivityStore.get();
-		var d = new TodaysDate();
+		
+		if(!d){
+			d = new TodaysDate();
+		}
 
 		if (dailyActivity === null) {
 			dailyActivity = {};
@@ -142,7 +147,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 				}
 			}
 			
-			this.updateTodaysGoal(curGoal);
+			this.updateDailyStatus(curGoal, d);
 			todaysGoals.push(curGoal);
 		}
 
