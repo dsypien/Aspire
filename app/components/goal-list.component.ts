@@ -30,7 +30,7 @@ export class GoalListComponent{
 		this._goalService.getTodaysGoals().then(
 			goals=> {
 				console.log(goals);
-				this.goals = goals
+				this.goals = goals;
 			}
 		);
 	}
