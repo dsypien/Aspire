@@ -55,22 +55,23 @@ export class Calendar{
 	}
 
 	// get dates for current week
-	getDates() : IDate[]{
+	getDates(interval:number) : IDate[]{
 		var date = new Date();
-		date.setDate(date.getDate() - 6);
+		var numDays = interval -1;
+		var simpleDate;
+		var week:IDate[] = [];
 
-		var simpleDate = {
+		date.setDate(date.getDate() - numDays);
+
+		simpleDate = {
 			year: date.getFullYear(),
 			month: date.getMonth() + 1,
 			day: date.getDate()
 		};
-
 		
-		var week:IDate[] = [];
 		week.push(new SimpleDate(simpleDate));
 
-
-		for(var i = 0; i < 6; i++){			
+		for(var i = 0; i < numDays; i++){
 			simpleDate = this.getNextDate(simpleDate);
 			week.push(new SimpleDate(simpleDate));
 		}
