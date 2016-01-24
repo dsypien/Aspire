@@ -75,7 +75,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 	updateDailyStatus(pGoal:GoalInterface, d:IDate){
 		var dailyActivity = DailyActivityStore.get();
-		
+
 		if(!d){
 			d = new TodaysDate();
 		}
@@ -101,6 +101,12 @@ export class LocalGoalsService implements GoalServiceInterface{
 		};
 
 		DailyActivityStore.update(dailyActivity);
+	}
+
+	getGoalsStatus(days:IDate[]){
+		days.forEach(day =>{
+
+		});
 	}
 
 	getTodaysGoals(){

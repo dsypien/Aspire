@@ -24,18 +24,26 @@ export class CalendarComponent{
 		this.calendar = new Calendar();
 		this.week = this.calendar.getDates(4);
 		this.getGoals();
+		this.getGoalsStatus();
 	}
 
 	getGoals(){
 		this._goalService.getTodaysGoals().then(
 			goals=>{
 				this.goals = goals;
+				console.log('todays goals');
+				console.dir(goals);
 			}
 		);	
+	}
+
+	getGoalsStatus(){
+
 	}
 
 	toggleGoalClick(goal, date) {
 		console.log(goal);
 		console.log(date);
+
 	}
 }
