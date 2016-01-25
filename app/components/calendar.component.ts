@@ -38,7 +38,12 @@ export class CalendarComponent{
 	}
 
 	getGoalsStatus(){
+		var goal: GoalInterface[] = [];
+		this._goalService.getGoalsStatus(this.week).then(
+			goalStatus=>{
 
+			}
+		);
 	}
 
 	toggleGoalClick(goal, date) {

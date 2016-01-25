@@ -103,10 +103,41 @@ export class LocalGoalsService implements GoalServiceInterface{
 		DailyActivityStore.update(dailyActivity);
 	}
 
-	getGoalsStatus(days:IDate[]){
-		days.forEach(day =>{
+	getGoalsStatus(days: IDate[]) {
+		var dailyActivity = DailyActivityStore.get();
+		var goals: GoalInterface[];
 
-		});
+		this.getTodaysGoals().then(
+			todaysGoals=>{
+				goals = todaysGoals;
+				goals.forEach(goal => {
+					days.forEach(date=> {
+						if (dailyActivity === undefined) {
+							dailyActivity = {};
+						}
+
+						if (dailyActivity[date.year] === undefined) {
+							dailyActivity[date.year] = {};
+						}
+
+						if (dailyActivity[date.year][date.month] === undefined) {
+							dailyActivity[date.year][date.month] = {};
+						}
+
+						if (dailyActivity[date.year][date.month][date.day] === undefined) {
+							dailyActivity[date.year][date.month][date.day] = {};
+						}
+
+						if (dailyActivity[date.year][date.month][date.day].isComplete === undefined) {
+							dailyActivity[date.year][date.month][date.day].isComplete = false;
+						}
+
+						goal.isComplete = dailyActivity[date.year][date.month][date.day].isComplete;
+					});
+				});
+				return Promise.resolve(goals);
+			}			
+		);
 	}
 
 	getTodaysGoals(){
