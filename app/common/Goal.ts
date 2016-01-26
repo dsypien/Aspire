@@ -4,6 +4,7 @@ export class Goal implements GoalInterface{
 	id: number;
 	isComplete: boolean;
 	name: string;
+	status: any[];
 
 	constructor(id, isComplete, name){
 		this.id = id;

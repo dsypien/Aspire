@@ -105,42 +105,54 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 	getGoalsStatus(days: IDate[]) {
 		var dailyActivity = DailyActivityStore.get();
-		var goals: GoalInterface[];
+		var goals: GoalInterface[][];
 
-		this.getTodaysGoals().then(
-			todaysGoals=>{
-				goals = todaysGoals;
-				goals.forEach(goal => {
-					days.forEach(date=> {
-						if (dailyActivity === undefined) {
-							dailyActivity = {};
+		return new Promise<GoalInterface[]>((resolve, reject) => {
+			this.getTodaysGoals().then(
+				todaysGoals=> {
+					for (var goali = 0; goali < todaysGoals.length; goali++) {
+						for (var dayi = 0; dayi < days.length; dayi++) {
+							var goal = todaysGoals[goali];
+							var date = days[dayi];
+							
+							goal.status = goal.status || [];
+
+							if (dailyActivity === undefined) {
+								dailyActivity = {};
+							}
+
+							if (dailyActivity[date.year] === undefined) {
+								dailyActivity[date.year] = {};
+							}
+
+							if (dailyActivity[date.year][date.month] === undefined) {
+								dailyActivity[date.year][date.month] = {};
+							}
+
+							if (dailyActivity[date.year][date.month][date.day] === undefined) {
+								dailyActivity[date.year][date.month][date.day] = {};
+							}
+
+							if (dailyActivity[date.year][date.month][date.day][goal.id] === undefined) {
+								dailyActivity[date.year][date.month][date.day][goal.id] = false;
+							}
+
+							if(dailyActivity[date.year][date.month][date.day][goal.id].isComplete){
+								goal.status.push(true);
+							}
+							else{
+								goal.status.push(false);
+							}
 						}
-
-						if (dailyActivity[date.year] === undefined) {
-							dailyActivity[date.year] = {};
-						}
-
-						if (dailyActivity[date.year][date.month] === undefined) {
-							dailyActivity[date.year][date.month] = {};
-						}
-
-						if (dailyActivity[date.year][date.month][date.day] === undefined) {
-							dailyActivity[date.year][date.month][date.day] = {};
-						}
-
-						if (dailyActivity[date.year][date.month][date.day].isComplete === undefined) {
-							dailyActivity[date.year][date.month][date.day].isComplete = false;
-						}
-
-						goal.isComplete = dailyActivity[date.year][date.month][date.day].isComplete;
-					});
-				});
-				return Promise.resolve(goals);
-			}			
-		);
+					}
+							
+					return Promise.resolve(todaysGoals);
+				}
+			);
+		});
 	}
 
-	getTodaysGoals(){
+	getTodaysGoals() :Promise<Goal[]>{
 		var currentGoals = CurrentGoalsStore.get();
 		var dailyActivity = DailyActivityStore.get();
 		var map = GoalStore.getGoalMap();
@@ -150,7 +162,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 		var numGoals = currentGoalIds.length;
 
 		var d = new TodaysDate();
-		var todaysGoals = [];
+		var todaysGoals:Goal[] = [];
 
 		for (var i = 0; i < numGoals; i++){
 			var curIdString = currentGoalIds[i].toString();
