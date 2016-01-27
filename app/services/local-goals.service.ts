@@ -146,7 +146,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 						}
 					}
 							
-					return Promise.resolve(todaysGoals);
+					return resolve(todaysGoals);
 				}
 			);
 		});

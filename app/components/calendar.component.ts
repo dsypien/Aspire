@@ -31,8 +31,6 @@ export class CalendarComponent{
 		this._goalService.getTodaysGoals().then(
 			goals=>{
 				this.goals = goals;
-				console.log('todays goals');
-				console.dir(goals);
 			}
 		);	
 	}
@@ -42,6 +40,7 @@ export class CalendarComponent{
 		this._goalService.getGoalsStatus(this.week).then(
 			goals=>{
 				this.goals = goals;
+				console.dir(goals);
 			}
 		);
 	}
