@@ -138,10 +138,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 							}
 
 							if(dailyActivity[date.year][date.month][date.day][goal.id].isComplete){
-								goal.status.push(true);
+								goal.status.push({ date: date, isComplete: true });
 							}
 							else{
-								goal.status.push(false);
+								goal.status.push({ date: date, isComplete: false });
 							}
 						}
 					}
