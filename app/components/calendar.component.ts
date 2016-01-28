@@ -45,9 +45,13 @@ export class CalendarComponent{
 		);
 	}
 
-	toggleGoalClick(goal, date) {
+	toggleGoalClick(goal, status) {
 		console.log(goal);
-		console.log(date);
+		console.log(status);
 
+		//toggle isComplete
+		status.isComplete = !status.isComplete;
+		goal.isComplete = status.isComplete;
+		this._goalService.updateDailyStatus(goal, status.date);
 	}
 }

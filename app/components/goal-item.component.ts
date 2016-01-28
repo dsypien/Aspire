@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Output, Injectable} from 'angular2/core';
 import {GoalInterface} from '../interfaces/Goal.Interface';
 import {LocalGoalsService} from '../services/local-goals.service';
-//import {GoalServiceInterface} from '../interfaces/GoalService.interface'
 
 @Component({
 	selector: 'goal-item',

@@ -7,6 +7,6 @@
   </tr>
   <tr class="calendar-body" *ngFor="#goal of goals">
     <td class="calendar-detail black-cell">{{goal.name}}</td>
-    <td class="calendar-cell calendar-goal" *ngFor="#date of week" (click)="toggleGoalClick(goal, date)"></td>
+    <td class="calendar-cell calendar-goal" *ngFor="#status of goal.status" (click)="toggleGoalClick(goal, status)"><div *ngIf="status.isComplete === true" class="completed">&#10003;</div></td>
   </tr>
 </table>
