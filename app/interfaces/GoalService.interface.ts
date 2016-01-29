@@ -1,6 +1,4 @@
 import {GoalInterface} from './Goal.Interface';
-import {IDate} from './Date.Interface';
-
 
 export interface GoalServiceInterface{
 	// Goals
@@ -10,6 +8,6 @@ export interface GoalServiceInterface{
 	archive(id: number) :void;
 
 	// Daily Goals
-	 updateDailyStatus(GoalInterface:GoalInterface, date:IDate);
+	 updateDailyStatus(GoalInterface:GoalInterface, date:Date);
 	 getTodaysGoals();
 }

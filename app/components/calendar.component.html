@@ -1,9 +1,9 @@
 <h2>January - February</h2>
-<table class="calendar">
+<table class="calendar" (window:resize)="onResize($event)">
   <tr class="calendar-header">
-    <td class="calendar-detail calendar-icon" align="right"><span class="glyphicon glyphicon-menu-left"></span></td>
-    <td class="calendar-cell black-cell" *ngFor="#date of week">{{date.day}}</td>
-    <td class="calendar-icon"><span class="glyphicon glyphicon-menu-right"></span></td>
+    <td class="calendar-detail calendar-icon" (click)="goToPreviousDates()" align="right"><span class="glyphicon glyphicon-menu-left"></span></td>
+    <td class="calendar-cell black-cell" *ngFor="#date of dates">{{date.getDate()}}</td>
+    <td class="calendar-icon" (click)="goToNextDates()"><span class="glyphicon glyphicon-menu-right"></span></td>
   </tr>
   <tr class="calendar-body" *ngFor="#goal of goals">
     <td class="calendar-detail black-cell">{{goal.name}}</td>

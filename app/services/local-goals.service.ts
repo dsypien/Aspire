@@ -1,9 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {GoalInterface} from '../interfaces/Goal.Interface';
-import {IDate} from '../interfaces/Date.Interface';
 import {Goal} from '../common/Goal';
-import {TodaysDate} from '../common/TodaysDate';
 import {CurrentGoalsStore} from '../common/CurrentGoalsStore';
 import {GoalStore} from '../common/GoalsStore';
 import {DailyActivityStore} from '../common/DailyActivityStore';
@@ -73,37 +71,41 @@ export class LocalGoalsService implements GoalServiceInterface{
 		CurrentGoalsStore.update(currentGoals);
 	}
 
-	updateDailyStatus(pGoal:GoalInterface, d:IDate){
+	updateDailyStatus(pGoal:GoalInterface, d:Date){
 		var dailyActivity = DailyActivityStore.get();
 
 		if(!d){
-			d = new TodaysDate();
+			d = new Date();
 		}
 
-		if (dailyActivity === null) {
+		var year : string = d.getFullYear().toString();
+		var month : string = d.getMonth().toString();
+		var day : string = d.getDate().toString();
+
+		if (!dailyActivity) {
 			dailyActivity = {};
 		}
 
-		if (dailyActivity[d.year] === undefined){
-		dailyActivity[d.year] = {};
+		if (!dailyActivity[year]){
+		dailyActivity[year] = {};
 		}
 
-		if (dailyActivity[d.year][d.month] === undefined){
-			dailyActivity[d.year][d.month] = {};
+		if (!dailyActivity[year][month]){
+			dailyActivity[year][month] = {};
 		}
 
-		if (dailyActivity[d.year][d.month][d.day] === undefined){
-			dailyActivity[d.year][d.month][d.day] = {};
+		if (!dailyActivity[year][month][day]){
+			dailyActivity[year][month][day] = {};
 		}
 
-		dailyActivity[d.year][d.month][d.day][pGoal.id] = {
+		dailyActivity[year][month][day][pGoal.id] = {
 			isComplete: pGoal.isComplete
 		};
 
 		DailyActivityStore.update(dailyActivity);
 	}
 
-	getGoalsStatus(days: IDate[]) {
+	getGoalsStatus(days: Date[]) {
 		var dailyActivity = DailyActivityStore.get();
 		var goals: GoalInterface[][];
 
@@ -114,30 +116,34 @@ export class LocalGoalsService implements GoalServiceInterface{
 						for (var dayi = 0; dayi < days.length; dayi++) {
 							var goal = todaysGoals[goali];
 							var date = days[dayi];
+
+							var year: string = date.getFullYear().toString();
+							var month: string = date.getMonth().toString();
+							var day: string = date.getDate().toString();
 							
 							goal.status = goal.status || [];
 
-							if (dailyActivity === undefined) {
+							if (!dailyActivity) {
 								dailyActivity = {};
 							}
 
-							if (dailyActivity[date.year] === undefined) {
-								dailyActivity[date.year] = {};
+							if (!dailyActivity[year]) {
+								dailyActivity[year] = {};
 							}
 
-							if (dailyActivity[date.year][date.month] === undefined) {
-								dailyActivity[date.year][date.month] = {};
+							if (!dailyActivity[year][month]) {
+								dailyActivity[year][month] = {};
 							}
 
-							if (dailyActivity[date.year][date.month][date.day] === undefined) {
-								dailyActivity[date.year][date.month][date.day] = {};
+							if (!dailyActivity[year][month][day]) {
+								dailyActivity[year][month][day] = {};
 							}
 
-							if (dailyActivity[date.year][date.month][date.day][goal.id] === undefined) {
-								dailyActivity[date.year][date.month][date.day][goal.id] = false;
+							if (!dailyActivity[year][month][day][goal.id]) {
+								dailyActivity[year][month][day][goal.id] = false;
 							}
 
-							if(dailyActivity[date.year][date.month][date.day][goal.id].isComplete){
+							if(dailyActivity[year][month][day][goal.id].isComplete){
 								goal.status.push({ date: date, isComplete: true });
 							}
 							else{
@@ -161,34 +167,38 @@ export class LocalGoalsService implements GoalServiceInterface{
 		var currentGoalIds = Object.keys(currentGoals);
 		var numGoals = currentGoalIds.length;
 
-		var d = new TodaysDate();
+		var d = new Date();
 		var todaysGoals:Goal[] = [];
+
+		var year: string = d.getFullYear().toString();
+		var month: string = d.getMonth().toString();
+		var day: string = d.getDate().toString();
 
 		for (var i = 0; i < numGoals; i++){
 			var curIdString = currentGoalIds[i].toString();
 
-			if(dailyActivity === undefined){
+			if(!dailyActivity){
 				dailyActivity = {};
 			}
 
-			if(dailyActivity[d.year] === undefined){
-				dailyActivity[d.year] = {};
+			if(!dailyActivity[year]){
+				dailyActivity[year] = {};
 			}
 
-			if (dailyActivity[d.year][d.month] === undefined) {
-				dailyActivity[d.year][d.month] = {};
+			if (!dailyActivity[year][month]) {
+				dailyActivity[year][month] = {};
 			}
 
-			if (dailyActivity[d.year][d.month][d.day] === undefined) {
-				dailyActivity[d.year][d.month][d.day] = {};
+			if (!dailyActivity[year][month][day]) {
+				dailyActivity[year][month][day] = {};
 			}
 
 			// Retrieve goal
 			var curGoal = goalsList[map[curIdString]];
 
 			// Copy activity properties if any logged for today
-			if(dailyActivity[d.year][d.month][d.day][curIdString] !== undefined){
-				var target = dailyActivity[d.year][d.month][d.day][curIdString];
+			if(dailyActivity[year][month][day][curIdString] !== undefined){
+				var target = dailyActivity[year][month][day][curIdString];
 				for (var k in target) {
 					if (target.hasOwnProperty(k)) {
 						curGoal[k] = target[k];
