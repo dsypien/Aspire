@@ -1,5 +1,5 @@
 export class Calendar{
-	private months: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	private months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 	getDaysInMonth(month: number, year: number){
 		return new Date(year, month, 0).getDate();
@@ -15,17 +15,16 @@ export class Calendar{
 	}
 
 	// get dates for current week
-	getDates(num:number) : Date[]{
-		var date = new Date();
+	getDates(num:number, endDate:Date) : Date[]{
 		var numDays = num -1;
 		var week:Date[] = [];
 
-		date.setDate(date.getDate() - numDays);
-		week.push(new Date(date.toString()));
+		endDate.setDate(endDate.getDate() - numDays);
+		week.push(new Date(endDate.toString()));
 
 		for(var i = 0; i < numDays; i++){
-			date.setDate(date.getDate() + 1)
-			week.push(new Date(date.toString()));
+			endDate.setDate(endDate.getDate() + 1)
+			week.push(new Date(endDate.toString()));
 		}
 
 		return week;
