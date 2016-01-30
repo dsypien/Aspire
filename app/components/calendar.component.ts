@@ -16,7 +16,9 @@ export class CalendarComponent{
 	private calendar;
 	private goals: GoalInterface[];
 	private screenWidth;
+	private startDate: Date;
 	private endDate: Date;
+	private dateLabel: string;
 
 	private SMALL : number;
 	private MEDIUM : number;
@@ -28,25 +30,39 @@ export class CalendarComponent{
 		this.MEDIUM = 5;
 		this.LARGE = 7;
 		this.XLARGE = 10;
-
-		// this.endDate = 
 	}
 
 	ngOnInit(){
+		this.endDate = new Date();
 		this.calendar = new Calendar();
 		this.onResize();
+	}
+
+	private getStartDateText(){
+		return this.calendar.getMonthText(this.startDate.getMonth()) +
+			" " + this.startDate.getDate() +
+			", " + this.startDate.getFullYear();
+	}
+
+	private getEndDateText(){
+		return this.calendar.getMonthText(this.endDate.getMonth()) +
+			" " + this.endDate.getDate() +
+			", " + this.endDate.getFullYear();
 	}
 
 	private onResize(){
 		var size = this.getWindowSize();
 
 		if (this.screenWidth !== size) {
-			this.dates = this.calendar.getDates(size);
-			this.getGoals();
-			this.getGoalsStatus();
+			this.screenWidth = size;
+			this.getGoalData();
 		}
-		
-		this.screenWidth = size;
+	}
+
+	private getGoalData(){
+		this.dates = this.calendar.getDates(this.screenWidth, this.endDate);
+		this.getGoals();
+		this.getGoalsStatus();
 	}
 
 	private getWindowSize(){
@@ -81,9 +97,12 @@ export class CalendarComponent{
 	private getGoalsStatus(){
 		var goal: GoalInterface[] = [];
 		this._goalService.getGoalsStatus(this.dates).then(
-			goals=>{
+			goals=> {
 				this.goals = goals;
-				console.dir(goals);
+				this.startDate = goals[0].status[0].date;
+				this.dateLabel = this.getStartDateText() +
+								" - " +
+								this.getEndDateText();
 			}
 		);
 	}
@@ -95,10 +114,12 @@ export class CalendarComponent{
 	}
 
 	goToPreviousDates(){
-		console.log("Go to previous dates");
+		this.endDate.setDate(this.endDate.getDate() - this.screenWidth);
+		this.getGoalData();
 	}
 
 	goToNextDates() {
-		console.log("Go to next dates");
+		this.endDate.setDate(this.endDate.getDate() + this.screenWidth);
+		this.getGoalData();
 	}
 }
