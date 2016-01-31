@@ -5,6 +5,9 @@ export class Goal implements GoalInterface{
 	isComplete: boolean;
 	name: string;
 	status: any[];
+	createDate: Date;
+	numCompletions: number;
+	longestStreak: any;
 
 	constructor(id, isComplete, name){
 		this.id = id;
