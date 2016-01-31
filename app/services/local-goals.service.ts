@@ -58,6 +58,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 		var goal = goals.items[map[pGoal.id]];
 
 		goal.name = pGoal.name;
+		goal.numCompletions = pGoal.numCompletions;
 
 		GoalStore.update(goals);
 
@@ -97,10 +98,16 @@ export class LocalGoalsService implements GoalServiceInterface{
 		if (!dailyActivity[year][month][day]){
 			dailyActivity[year][month][day] = {};
 		}
+		
+		if(dailyActivity[year][month][day][pGoal.id].isComplete && !pGoal.isComplete){
+			pGoal.numCompletions--;
+		}
+		else if(!dailyActivity[year][month][day][pGoal.id].isComplete && pGoal.isComplete){
+			pGoal.numCompletions++;
+		}
 
-		dailyActivity[year][month][day][pGoal.id] = {
-			isComplete: pGoal.isComplete
-		};
+		this.update(pGoal);
+		dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
 
 		DailyActivityStore.update(dailyActivity);
 	}

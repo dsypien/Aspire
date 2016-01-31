@@ -19,5 +19,6 @@ export class Goal implements GoalInterface{
 		this.id = t.id;
 		this.isComplete = t.isComplete;
 		this.name = t.name;
+		this.numCompletions = 0;
 	}
 }
