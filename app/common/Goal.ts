@@ -13,12 +13,12 @@ export class Goal implements GoalInterface{
 		this.id = id;
 		this.isComplete = isComplete;
 		this.name = name;
+		this.numCompletions = 0;
 	}
 
 	Clone(t:Goal){
 		this.id = t.id;
 		this.isComplete = t.isComplete;
 		this.name = t.name;
-		this.numCompletions = 0;
 	}
 }
