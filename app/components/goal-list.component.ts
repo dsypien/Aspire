@@ -15,23 +15,12 @@ import {GoalInterface} from '../interfaces/Goal.Interface';
 
 export class GoalListComponent{
 	public goals: GoalInterface[];
-	private subscription: any;
 
 	constructor(private _goalService: LocalGoalsService) {
-		this.subscription = this._goalService.getUpdateEventEmitter()
-			.subscribe(item => this.goalUpdateEvent);
-	}
-
-	goalUpdateEvent(value: string){
-		console.log("successfull event captured in goal list");
 	}
 
 	ngOnInit(){
 		this.getGoals();
-	}
-
-	ngOnDestroy(){
-		this.subscription.unsubscribe();
 	}
 
 	goalListUpdated(){

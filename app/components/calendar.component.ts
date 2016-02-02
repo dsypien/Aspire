@@ -19,7 +19,6 @@ export class CalendarComponent{
 	private startDate: Date;
 	private endDate: Date;
 	private dateLabel: string;
-	private subscription: any;
 
 	private SMALL : number;
 	private MEDIUM : number;
@@ -38,17 +37,6 @@ export class CalendarComponent{
 		this.endDate = new Date();
 		this.calendar = new Calendar();
 		this.onResize();
-
-		this.subscription = this._goalService.getUpdateEventEmitter();
-		this.subscription.subscribe(item => this.goalUpdateEvent(item));
-	}
-
-	ngOnDestroy(){
-		this.subscription.unsubscribe();
-	}
-
-	goalUpdateEvent(value: string){
-		console.log("Succesffull event captured in calendar");
 	}
 
 	private getStartDateText(){

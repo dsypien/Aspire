@@ -10,14 +10,8 @@ import {DailyActivityStore} from '../common/DailyActivityStore';
 export class LocalGoalsService implements GoalServiceInterface{
 	private _isDirty: boolean = true;
 	private _goals: { nextID: number, items: Array<any> };
-	public updateEvent: EventEmitter<any>;
 
 	constructor(){
-		this.updateEvent = new EventEmitter();
-	}
-
-	getUpdateEventEmitter(){
-		return this.updateEvent;
 	}
 
 	get(){		
@@ -123,8 +117,6 @@ export class LocalGoalsService implements GoalServiceInterface{
 		dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
 
 		DailyActivityStore.update(dailyActivity);
-
-		this.updateEvent.emit("update");
 	}
 
 	getGoalsStatus(days: Date[]) {
