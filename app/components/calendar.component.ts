@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit} from 'angular2/core';
+import {Component, Injectable, OnInit, OnDestroy} from 'angular2/core';
 import {Calendar} from '../common/Calendar';
 import {LocalGoalsService} from '../services/local-goals.service';
 import {GoalInterface} from '../interfaces/Goal.Interface';
@@ -19,11 +19,13 @@ export class CalendarComponent{
 	private startDate: Date;
 	private endDate: Date;
 	private dateLabel: string;
+	private subscription: any;
 
 	private SMALL : number;
 	private MEDIUM : number;
 	private LARGE : number;
 	private XLARGE : number;
+	item: string = "";
 
 	constructor(private _goalService: LocalGoalsService) { 
 		this.SMALL = 3;
@@ -36,6 +38,17 @@ export class CalendarComponent{
 		this.endDate = new Date();
 		this.calendar = new Calendar();
 		this.onResize();
+
+		this.subscription = this._goalService.getUpdateEventEmitter();
+		this.subscription.subscribe(item => this.goalUpdateEvent(item));
+	}
+
+	ngOnDestroy(){
+		this.subscription.unsubscribe();
+	}
+
+	goalUpdateEvent(value: string){
+		console.log("Succesffull event captured in calendar");
 	}
 
 	private getStartDateText(){

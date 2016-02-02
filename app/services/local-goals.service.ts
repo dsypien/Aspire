@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, EventEmitter} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {GoalInterface} from '../interfaces/Goal.Interface';
 import {Goal} from '../common/Goal';
@@ -10,6 +10,15 @@ import {DailyActivityStore} from '../common/DailyActivityStore';
 export class LocalGoalsService implements GoalServiceInterface{
 	private _isDirty: boolean = true;
 	private _goals: { nextID: number, items: Array<any> };
+	public updateEvent: EventEmitter<any>;
+
+	constructor(){
+		this.updateEvent = new EventEmitter();
+	}
+
+	getUpdateEventEmitter(){
+		return this.updateEvent;
+	}
 
 	get(){		
 		var goals = GoalStore.get();
@@ -98,6 +107,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 		if (!dailyActivity[year][month][day]){
 			dailyActivity[year][month][day] = {};
 		}
+
+		if (!dailyActivity[year][month][day][pGoal.id]){
+			dailyActivity[year][month][day][pGoal.id] = {};
+		}
 		
 		if(dailyActivity[year][month][day][pGoal.id].isComplete && !pGoal.isComplete){
 			pGoal.numCompletions--;
@@ -110,6 +123,8 @@ export class LocalGoalsService implements GoalServiceInterface{
 		dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
 
 		DailyActivityStore.update(dailyActivity);
+
+		this.updateEvent.emit("update");
 	}
 
 	getGoalsStatus(days: Date[]) {
