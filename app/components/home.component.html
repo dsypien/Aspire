@@ -1,2 +1,2 @@
-<goal-list class="col-lg-9"></goal-list>
-<goal-calendar class="col-lg-12"></goal-calendar>
+<goal-list [goals]="goals" (goalCreatedEvent)="createGoal()" class="col-lg-9"></goal-list>
+<goal-calendar [goals]="goals" class="col-lg-12"></goal-calendar>

@@ -1,39 +1,27 @@
-import {Component} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {GoalItemComponent} from './goal-item.component';
 import {CreateGoalComponent} from './create-goal.component';
 import {OnInit, OnDestroy} from 'angular2/core';
-import {LocalGoalsService} from '../services/local-goals.service';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {GoalInterface} from '../interfaces/Goal.Interface';
+import {Goal} from '../common/Goal';
 
 @Component({
 	selector: 'goal-list',
 	templateUrl: '/app/components/goal-list.component.html',
-	directives: [GoalItemComponent, CreateGoalComponent],
-	providers: [LocalGoalsService]
+	directives: [GoalItemComponent, CreateGoalComponent]
 })
 
 export class GoalListComponent{
-	public goals: GoalInterface[];
+	@Input() goals: Goal[];
+	@Output() goalCreatedEvent = new EventEmitter<Goal>();
 
-	constructor(private _goalService: LocalGoalsService) {
+	constructor() {
 	}
 
-	ngOnInit(){
-		this.getGoals();
-	}
-
-	goalListUpdated(){
-		this.getGoals();
-	}
-
-	getGoals(){
-		this._goalService.getTodaysGoals().then(
-			goals=> {
-				console.log(goals);
-				this.goals = goals;
-			}
-		);
-	}
-	
+	goalCreated(goal){
+		if(goal){
+			this.goalCreatedEvent.next(goal);
+		}
+	}	
 }

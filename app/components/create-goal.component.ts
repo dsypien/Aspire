@@ -9,11 +9,10 @@ import {Goal} from '../common/Goal';
 })
 
 export class CreateGoalComponent{
-	@Output() goalCreated = new EventEmitter();
+	@Output() goalCreatedEvent = new EventEmitter<Goal>();
 	public goalName: string;
 
 	constructor(private _localGoalService : LocalGoalsService){
-
 	}
 
 	onKeyUp(event){
@@ -25,10 +24,7 @@ export class CreateGoalComponent{
 	createGoal(){
 		var goal = new Goal(null, false, this.goalName);
 
-		this._localGoalService.create(goal);
-		this.goalCreated.emit('event');
-
+		this.goalCreatedEvent.next(goal);
 		this.goalName = null;
-
 	}
 }
