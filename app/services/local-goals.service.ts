@@ -58,14 +58,17 @@ export class LocalGoalsService implements GoalServiceInterface{
 	update(pGoal:GoalInterface){
 		var goals = GoalStore.get();
 		var map = GoalStore.getGoalMap();
-		var goal = goals.items[map[pGoal.id]];
 
-		goal.name = pGoal.name;
-		goal.numCompletions = pGoal.numCompletions;
+		if(pGoal){
+			var goal = goals.items[map[pGoal.id]];
 
-		GoalStore.update(goals);
+			goal.name = pGoal.name;
+			goal.numCompletions = pGoal.numCompletions;
 
-		this._isDirty = true;
+			GoalStore.update(goals);
+
+			this._isDirty = true;
+		}
 	}
 
 	archive(id:number){
@@ -76,54 +79,56 @@ export class LocalGoalsService implements GoalServiceInterface{
 	}
 
 	updateDailyStatus(pGoal:GoalInterface, d:Date){
-		var dailyActivity = DailyActivityStore.get();
+		if(pGoal){
+			var dailyActivity = DailyActivityStore.get();
 
-		if(!d){
-			d = new Date();
+			if (!d) {
+				d = new Date();
+			}
+
+			var year: string = d.getFullYear().toString();
+			var month: string = d.getMonth().toString();
+			var day: string = d.getDate().toString();
+
+			if (!dailyActivity) {
+				dailyActivity = {};
+			}
+
+			if (!dailyActivity[year]) {
+				dailyActivity[year] = {};
+			}
+
+			if (!dailyActivity[year][month]) {
+				dailyActivity[year][month] = {};
+			}
+
+			if (!dailyActivity[year][month][day]) {
+				dailyActivity[year][month][day] = {};
+			}
+
+			if (!dailyActivity[year][month][day][pGoal.id]) {
+				dailyActivity[year][month][day][pGoal.id] = {};
+			}
+
+			if (dailyActivity[year][month][day][pGoal.id].isComplete && !pGoal.isComplete) {
+				pGoal.numCompletions--;
+			}
+			else if (!dailyActivity[year][month][day][pGoal.id].isComplete && pGoal.isComplete) {
+				pGoal.numCompletions++;
+			}
+
+			this.update(pGoal);
+			dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
+
+			DailyActivityStore.update(dailyActivity);
 		}
-
-		var year : string = d.getFullYear().toString();
-		var month : string = d.getMonth().toString();
-		var day : string = d.getDate().toString();
-
-		if (!dailyActivity) {
-			dailyActivity = {};
-		}
-
-		if (!dailyActivity[year]){
-		dailyActivity[year] = {};
-		}
-
-		if (!dailyActivity[year][month]){
-			dailyActivity[year][month] = {};
-		}
-
-		if (!dailyActivity[year][month][day]){
-			dailyActivity[year][month][day] = {};
-		}
-
-		if (!dailyActivity[year][month][day][pGoal.id]){
-			dailyActivity[year][month][day][pGoal.id] = {};
-		}
-		
-		if(dailyActivity[year][month][day][pGoal.id].isComplete && !pGoal.isComplete){
-			pGoal.numCompletions--;
-		}
-		else if(!dailyActivity[year][month][day][pGoal.id].isComplete && pGoal.isComplete){
-			pGoal.numCompletions++;
-		}
-
-		this.update(pGoal);
-		dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
-
-		DailyActivityStore.update(dailyActivity);
 	}
 
 	getGoalsStatus(days: Date[]) {
 		var dailyActivity = DailyActivityStore.get();
-		var goals: GoalInterface[][];
+		var goals: Goal[][];
 
-		return new Promise<GoalInterface[]>((resolve, reject) => {
+		return new Promise<Goal[]>((resolve, reject) => {
 			this.getTodaysGoals().then(
 				todaysGoals=> {
 					for (var goali = 0; goali < todaysGoals.length; goali++) {

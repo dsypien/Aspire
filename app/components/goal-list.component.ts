@@ -15,13 +15,28 @@ import {Goal} from '../common/Goal';
 export class GoalListComponent{
 	@Input() goals: Goal[];
 	@Output() goalCreatedEvent = new EventEmitter<Goal>();
+	@Output() updateDailyStatus = new EventEmitter<Goal>();
+	@Output() updateGoal = new EventEmitter<Goal>();
+	@Output() archiveGoal = new EventEmitter<Goal>();
 
 	constructor() {
 	}
 
 	goalCreated(goal){
 		if(goal){
-			this.goalCreatedEvent.next(goal);
+			//this.goalCreatedEvent.emit(goal);
 		}
 	}	
+
+	goalUpdated(goal) {
+		//this.updateGoal.emit(goal);
+	}
+
+	goalArchived(goal) {
+		//this.archiveGoal.emit(goal);
+	}
+
+	goalUpdateDailyStatus(goal) {
+		//this.updateDailyStatus.emit(goal);
+	}
 }
