@@ -5,6 +5,7 @@ import {OnInit, OnDestroy} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {GoalInterface} from '../interfaces/Goal.Interface';
 import {Goal} from '../common/Goal';
+import {DailyStatus} from '../common/DailyStatus';
 
 @Component({
 	selector: 'goal-list',
@@ -36,7 +37,7 @@ export class GoalListComponent{
 		//this.archiveGoal.emit(goal);
 	}
 
-	goalUpdateDailyStatus(goal) {
+	goalUpdateDailyStatus(dailyStatus) {
 		//this.updateDailyStatus.emit(goal);
 	}
 }

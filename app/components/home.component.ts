@@ -86,8 +86,8 @@ export class HomeComponent {
 		}
 	}
 
-	updateDailyStatus(goal){
-		this._localGoalService.updateDailyStatus(goal, null);
+	updateDailyStatus(dailyStatus){
+		this._localGoalService.updateDailyStatus(dailyStatus);
 	}
 
 	updateGoal(goal){

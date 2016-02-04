@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from 'angular2/core';
 import {GoalServiceInterface} from '../interfaces/GoalService.Interface';
 import {GoalInterface} from '../interfaces/Goal.Interface';
 import {Goal} from '../common/Goal';
+import {DailyStatus} from '../common/DailyStatus';
 import {CurrentGoalsStore} from '../common/CurrentGoalsStore';
 import {GoalStore} from '../common/GoalsStore';
 import {DailyActivityStore} from '../common/DailyActivityStore';
@@ -47,7 +48,9 @@ export class LocalGoalsService implements GoalServiceInterface{
 		goals.items.push(pGoal);
 		goals.nextID++;
 
-		this.updateDailyStatus(pGoal, null);
+		var dailyStatus = new DailyStatus(pGoal.id, new Date(), false);
+		this.updateDailyStatus(dailyStatus);
+
 		GoalStore.update(goals);
 		GoalStore.updateGoalMap(map);
 		CurrentGoalsStore.update(currentGoals);
@@ -78,9 +81,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 		CurrentGoalsStore.update(currentGoals);
 	}
 
-	updateDailyStatus(pGoal:GoalInterface, d:Date){
-		if(pGoal){
+	updateDailyStatus(dailyStatus: DailyStatus){
+		if (dailyStatus) {
 			var dailyActivity = DailyActivityStore.get();
+			var d = dailyStatus.date;
 
 			if (!d) {
 				d = new Date();
@@ -106,21 +110,12 @@ export class LocalGoalsService implements GoalServiceInterface{
 				dailyActivity[year][month][day] = {};
 			}
 
-			if (!dailyActivity[year][month][day][pGoal.id]) {
-				dailyActivity[year][month][day][pGoal.id] = {};
+			if (!dailyActivity[year][month][day][dailyStatus.id]) {
+				dailyActivity[year][month][day][dailyStatus.id] = {};
 			}
 
-			if (dailyActivity[year][month][day][pGoal.id].isComplete && !pGoal.isComplete) {
-				pGoal.numCompletions--;
-			}
-			else if (!dailyActivity[year][month][day][pGoal.id].isComplete && pGoal.isComplete) {
-				pGoal.numCompletions++;
-			}
-
-			this.update(pGoal);
-			dailyActivity[year][month][day][pGoal.id] = { isComplete: pGoal.isComplete };
-
-			DailyActivityStore.update(dailyActivity);
+			//this.update();
+			dailyActivity[year][month][day][dailyStatus.id] = { isComplete: dailyStatus.isComplete };
 		}
 	}
 
@@ -225,7 +220,9 @@ export class LocalGoalsService implements GoalServiceInterface{
 				}
 			}
 			
-			this.updateDailyStatus(curGoal, d);
+			var dailyStatus = new DailyStatus(curGoal.id, d, curGoal.isComplete);
+			this.updateDailyStatus(dailyStatus);
+			
 			todaysGoals.push(curGoal);
 		}
 

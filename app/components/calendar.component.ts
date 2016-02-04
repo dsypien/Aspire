@@ -1,6 +1,7 @@
 import {Component, Injectable, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalGoalsService} from '../services/local-goals.service';
 import {GoalInterface} from '../interfaces/Goal.Interface';
+import {DailyStatus} from '../common/DailyStatus';
 
 @Component({
 	selector: 'goal-calendar',
@@ -36,7 +37,8 @@ export class CalendarComponent{
 
 	private toggleGoalClick(goal, status) {
 		status.isComplete = !status.isComplete;
-		goal.isComplete = status.isComplete;
-		this._goalService.updateDailyStatus(goal, status.date);
+		//goal.isComplete = status.isComplete;
+		var dailyStatus = new DailyStatus(goal.id, status.date, status.isComplete);
+		this._goalService.updateDailyStatus(dailyStatus);
 	}
 }
