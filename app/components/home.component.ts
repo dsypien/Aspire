@@ -35,7 +35,7 @@ export class HomeComponent {
 		this.SMALL = 3;
 		this.MEDIUM = 5;
 		this.LARGE = 7;
-		this.XLARGE = 10;
+		this.XLARGE = 11;
 	}
 
 	ngOnInit() {
@@ -78,26 +78,6 @@ export class HomeComponent {
 		}
 
 		return size;
-	}
-
-	createGoal(goal){
-		if(goal){
-			this._localGoalService.create(goal);
-		}
-	}
-
-	updateDailyStatus(dailyStatus){
-		this._localGoalService.updateDailyStatus(dailyStatus);
-	}
-
-	updateGoal(goal){
-		this._localGoalService.update(goal);
-	}
-
-	archiveGoal(goal){
-		if(goal){
-			this._localGoalService.archive(goal.id);
-		}		
 	}
 
 	private getGoals() {

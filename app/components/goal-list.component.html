@@ -1,12 +1,8 @@
 <h1>Daily Goals</h1>
 <ul>
 	<goal-item 
-		(dirty)="goalListUpdated()" 
 		*ngFor="#goal of goals" 
-		[goal]="goal"
-		[updateDailyStatus]="goalUpdateDailyStatus()"
-		[updateGoal]="goalUpdated()"
-		[archiveGoal]="goalArchived()">
+		[goal]="goal">
 	</goal-item>
 	<create-goal 
 		(goalCreatedEvent)="goalCreated()">
