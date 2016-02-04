@@ -116,6 +116,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 			//this.update();
 			dailyActivity[year][month][day][dailyStatus.id] = { isComplete: dailyStatus.isComplete };
+			DailyActivityStore.update(dailyActivity);
 		}
 	}
 
