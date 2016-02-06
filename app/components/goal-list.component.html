@@ -2,9 +2,10 @@
 <ul>
 	<goal-item 
 		*ngFor="#goal of goals" 
-		[goal]="goal">
+		[goal]="goal"
+		(dirtyGoal)="onGoalDirty()">
 	</goal-item>
 	<create-goal 
-		(goalCreatedEvent)="goalCreated()">
+		(goalCreatedEvent)="onGoalDirty()">
 	</create-goal>
 </ul>

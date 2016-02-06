@@ -2,11 +2,20 @@
 <table class="calendar">
   <tr class="calendar-header">
     <td class="calendar-detail calendar-icon" (click)="previous()" align="right"><span class="glyphicon glyphicon-menu-left"></span></td>
-    <td class="calendar-cell black-cell" *ngFor="#date of dates">{{date.getDate()}}</td>
+    <td class="calendar-cell black-cell" 
+        *ngFor="#date of dates"
+        [ngClass]="{'todays-header': isToday(date)}">
+            {{date.getDate()}}
+    </td>
     <td class="calendar-icon" (click)="next()"><span class="glyphicon glyphicon-menu-right"></span></td>
   </tr>
   <tr class="calendar-body" *ngFor="#goal of goals">
     <td class="calendar-detail black-cell">{{goal.name}}</td>
-    <td class="calendar-cell calendar-goal" *ngFor="#status of goal.status" (click)="toggleGoalClick(goal, status)"><div *ngIf="status.isComplete === true" class="completed">&#10003;</div></td>
+    <td class="calendar-cell calendar-goal" 
+        *ngFor="#status of goal.status" 
+        [ngClass]="{'today': isToday(status.date)}"
+        (click)="toggleGoalClick(goal, status)">
+        <div *ngIf="status.isComplete === true" class="completed">&#10003;</div>
+    </td>
   </tr>
 </table>

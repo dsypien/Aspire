@@ -1,6 +1,7 @@
 <goal-list 
 	class="col-lg-12"
-	[goals]="goals">
+	[goals]="goals"
+	(dirtyGoalList)="onDirtyGoalList()">
 </goal-list>
 <goal-calendar 
 	class="col-lg-12"
@@ -9,5 +10,9 @@
 	[dateLabel]="dateLabel" 
 	(previousEvent)="goToPreviousDates()"
 	(nextEvent)="goToNextDates()"
+	(dirtyGoals)="onDirtyGoalList()"
 	(window:resize)="onResize($event)">
 </goal-calendar>
+<note
+	class="col-lg-12">
+</note>

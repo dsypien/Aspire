@@ -23,12 +23,9 @@ export class CreateGoalComponent{
 
 	createGoal(){
 		var goal = new Goal(null, false, this.goalName);
-
 		this._localGoalService.create(goal);
-
-		// TODO : need to fetch goals from service
 		
-		//this.goalCreatedEvent.next(goal);
+		this.goalCreatedEvent.next(goal);
 		this.goalName = null;
 	}
 }

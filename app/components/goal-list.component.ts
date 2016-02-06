@@ -16,6 +16,12 @@ import {DailyStatus} from '../common/DailyStatus';
 export class GoalListComponent{
 	@Input() goals: Goal[];
 
+	@Output() dirtyGoalList = new EventEmitter();
+
 	constructor() {
+	}
+
+	onGoalDirty(){
+		this.dirtyGoalList.next(null);
 	}
 }

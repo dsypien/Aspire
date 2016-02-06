@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Output, Injectable} from 'angular2/core';
 import {Goal} from '../common/Goal';
+import {DailyStatus} from '../common/DailyStatus';
 import {LocalGoalsService} from '../services/local-goals.service';
 
 @Component({
@@ -13,11 +14,15 @@ import {LocalGoalsService} from '../services/local-goals.service';
 
 export class GoalItemComponent{
 	public goal: Goal;
+	private goalStatus : boolean;
 
-	@Output() updateDailyStatus = new EventEmitter<Goal>();
-	@Output() archiveGoal = new EventEmitter<Goal>();
+	@Output() dirtyGoal = new EventEmitter();
 
 	constructor(private _localGoalService : LocalGoalsService){
+	}
+
+	ngOnInit(){
+		this.goalStatus = this.goal.isComplete;
 	}
 
 	update() {
@@ -26,12 +31,14 @@ export class GoalItemComponent{
 
 	archive(){
 		this._localGoalService.archive(this.goal.id);
-		//  TODO : Need to remove from goals object
+		this.dirtyGoal.next(null);
 	}
 
 	toggleTodaysGoal(event) {
-		//this.goal.isComplete = event.srcElement.checked;
-		//this._localGoalService.updateDailyStatus(this.goal, null);
-		this.updateDailyStatus.emit(this.goal);
+		var date = new Date();
+		var dailyStatus = new DailyStatus(this.goal.id, date, !this.goalStatus);
+
+		this._localGoalService.updateDailyStatus(dailyStatus);
+		this.dirtyGoal.next(null);
 	}
 }

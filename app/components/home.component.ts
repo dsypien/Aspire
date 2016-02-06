@@ -2,13 +2,14 @@ import {Component, Input} from 'angular2/core';
 import {RouterOutlet} from 'angular2/router';
 import {CalendarComponent} from './calendar.component';
 import {GoalListComponent} from './goal-list.component';
+import {NoteComponent} from './note.component';
 import {Calendar} from '../common/Calendar';
 import {Goal} from '../common/Goal';
 import {LocalGoalsService} from '../services/local-goals.service';
 
 @Component({
     selector: 'home',
-    directives: [GoalListComponent, CalendarComponent, RouterOutlet],
+    directives: [GoalListComponent, CalendarComponent, RouterOutlet, NoteComponent],
     templateUrl: '/app/components/home.component.html',
     providers: [LocalGoalsService]
 })
@@ -126,6 +127,11 @@ export class HomeComponent {
 		else{
 			return "";
 		}
+	}
+
+	private onDirtyGoalList(){
+		console.log("Goal list is dirty, fetching goals from service");
+		this.getGoalData();
 	}
 
 	goToPreviousDates() {

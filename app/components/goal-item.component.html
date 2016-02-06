@@ -2,7 +2,7 @@
   <div>
     <div class="input-group">
       <span class="input-group-addon">
-        <input [(ngModel)]="goal.isComplete" (click)="toggleTodaysGoal($event)" type="checkbox">
+        <input [(ngModel)]="goalStatus" (click)="toggleTodaysGoal($event)" type="checkbox">
       </span>
       <input type="text" [(ngModel)]="goal.name" (keyup)="update()" class="form-control">
       <span class="input-group-btn">
