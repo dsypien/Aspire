@@ -5,6 +5,7 @@ export class Goal implements GoalInterface{
 	isComplete: boolean;
 	name: string;
 	status: any[];
+	notes: string[];
 	createDate: Date;
 	numCompletions: number;
 	longestStreak: any;
