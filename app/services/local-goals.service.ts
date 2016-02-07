@@ -45,6 +45,7 @@ export class LocalGoalsService implements GoalServiceInterface{
 
 		//Append ID to goal 
 		pGoal.id = goals.nextID;
+		pGoal.createDate = new Date();
 		goals.items.push(pGoal);
 		goals.nextID++;
 
