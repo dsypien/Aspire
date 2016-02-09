@@ -17,6 +17,7 @@ export class GoalItemComponent{
 	private goalStatus : boolean;
 
 	@Output() dirtyGoal = new EventEmitter();
+	@Output() getTodaysGoals = new EventEmitter();
 
 	constructor(private _localGoalService : LocalGoalsService){
 	}
@@ -39,6 +40,6 @@ export class GoalItemComponent{
 		var dailyStatus = new DailyStatus(this.goal.id, date, !this.goalStatus);
 
 		this._localGoalService.updateDailyStatus(dailyStatus);
-		this.dirtyGoal.next(null);
+		this.getTodaysGoals.next(null);
 	}
 }

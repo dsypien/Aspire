@@ -3,7 +3,8 @@
 	<goal-item 
 		*ngFor="#goal of goals" 
 		[goal]="goal"
-		(dirtyGoal)="onGoalDirty()">
+		(dirtyGoal)="onGoalDirty()"
+		(getTodaysGoals)="onGetTodaysGoals()">
 	</goal-item>
 	<create-goal 
 		(goalCreatedEvent)="onGoalDirty()">

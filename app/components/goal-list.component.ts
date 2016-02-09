@@ -17,9 +17,14 @@ export class GoalListComponent{
 	@Input() goals: Goal[];
 
 	@Output() dirtyGoalList = new EventEmitter();
+	@Output() getTodaysGoals = new EventEmitter();
 
 	constructor() {
 	}
+
+	onGetTodaysGoals(){
+		this.getTodaysGoals.next(null);
+	}	
 
 	onGoalDirty(){
 		this.dirtyGoalList.next(null);

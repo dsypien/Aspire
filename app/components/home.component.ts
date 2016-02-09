@@ -134,6 +134,17 @@ export class HomeComponent {
 		this.getGoalData();
 	}
 
+	private onGetTodaysGoals(){
+		var today = new Date();
+		if( (today.getFullYear() !== this.endDate.getFullYear()) ||
+			(today.getMonth() !== this.endDate.getMonth()) ||
+			(today.getDate() !== this.endDate.getDate()) ){
+			this.endDate = today;
+		}
+
+		this.getGoalData();
+	}
+
 	goToPreviousDates() {
 		this.endDate.setDate(this.endDate.getDate() - this.screenWidth);
 		this.getGoalData();
