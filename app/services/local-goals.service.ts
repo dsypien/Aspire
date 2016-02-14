@@ -175,10 +175,10 @@ export class LocalGoalsService implements GoalServiceInterface{
 	}
 
 	getTodaysGoals() :Promise<Goal[]>{
-		var currentGoals = CurrentGoalsStore.get();
-		var dailyActivity = DailyActivityStore.get();
-		var map = GoalStore.getGoalMap();
-		var goalsList = GoalStore.get().items;
+		var currentGoals = CurrentGoalsStore.get() || [];
+		var dailyActivity = DailyActivityStore.get() || [];
+		var map = GoalStore.getGoalMap() || {};
+		var goalsList = GoalStore.get().items || [];
 
 		var currentGoalIds = Object.keys(currentGoals);
 		var numGoals = currentGoalIds.length;
