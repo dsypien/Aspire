@@ -70,6 +70,20 @@ gulp.task('compile', ['clean', 'exec-tsc'], function(){
 	gulp.src(['./app/boot.js', './app/*/*.js', './app/*/*.html'])
 		.pipe(gulp.dest('./public/app'));
 
+	// 3rd party dependencies
+	gulp.src([
+			"./node_modules/bootstrap/dist/css/bootstrap.min.css",
+			"./bower_components/jquery/dist/jquery.min.js",
+			"./node_modules/bootstrap/dist/js/bootstrap.min.js",
+			"./node_modules/angular2/bundles/angular2-polyfills.js",
+			"./node_modules/systemjs/dist/system.src.js",
+			"./node_modules/rxjs/bundles/Rx.js",
+			"./node_modules/angular2/bundles/angular2.dev.js",
+			"./node_modules/angular2/bundles/router.dev.js",
+			"./node_modules/angular2/bundles/http.dev.js",
+		]).pipe(gulp.dest('./public/dep'));
+
+
 	gulp.src(['./app/*.html'])
 		.pipe(gulp.dest('./public/'));
 
