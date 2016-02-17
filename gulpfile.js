@@ -80,9 +80,12 @@ gulp.task('compile', ['clean', 'exec-tsc'], function(){
 			"./node_modules/rxjs/bundles/Rx.js",
 			"./node_modules/angular2/bundles/angular2.dev.js",
 			"./node_modules/angular2/bundles/router.dev.js",
-			"./node_modules/angular2/bundles/http.dev.js",
+			"./node_modules/angular2/bundles/http.dev.js"
 		]).pipe(gulp.dest('./public/dep'));
 
+	gulp.src([
+			"./node_modules/bootstrap/fonts/*"
+		]).pipe(gulp.dest('./public/fonts'));
 
 	gulp.src(['./app/*.html'])
 		.pipe(gulp.dest('./public/'));
