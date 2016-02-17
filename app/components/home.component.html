@@ -5,6 +5,7 @@
 	(getTodaysGoals)="onGetTodaysGoals()">
 </goal-list>
 <goal-calendar 
+	[ngClass]="{'hidden': isVisible()}"
 	class="col-lg-12"
 	[dates]="dates" 
 	[goals]="goals" 

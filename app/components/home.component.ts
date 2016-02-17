@@ -1,4 +1,5 @@
 import {Component, Input} from 'angular2/core';
+import {NgClass} from 'angular2/common';
 import {RouterOutlet} from 'angular2/router';
 import {CalendarComponent} from './calendar.component';
 import {GoalListComponent} from './goal-list.component';
@@ -52,6 +53,10 @@ export class HomeComponent {
 			this.screenWidth = size;
 			this.getGoalData();
 		}
+	}
+
+	private isVisible(){
+		return this.goals && this.goals.length === 0;
 	}
 
 	private getGoalData() {
