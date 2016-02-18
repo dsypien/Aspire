@@ -12,12 +12,7 @@ import {RegisterComponent} from './register.component';
 })
 
 @RouteConfig([
-	{
-		path: '/home',
-		name: 'Home',
-		component: HomeComponent,
-		useAsDefault: true
-	},
+	{path: '/', name: 'Home', component: HomeComponent },
 	{path: '/login', name: 'Login', component: LoginComponent},
 	{path: '/register', name: 'Register', component: RegisterComponent}
 ])
