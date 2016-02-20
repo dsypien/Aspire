@@ -39,6 +39,7 @@
     "jade": "~1.11.0",
     "jquery": "^2.1.4",
     "jshint": "^2.8.0",
+    "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.3.4",
     "morgan": "~1.6.1",
     "passport": "^0.3.2",
