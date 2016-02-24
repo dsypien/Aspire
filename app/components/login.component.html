@@ -1,12 +1,12 @@
 <h1>Log in to Aspire</h1>
-<form>
+<form #f='ngForm' (ngSubmit)="authenticate(f.value)">
   <div class="form-group">
-    <label for="name">username</label>
-    <input type="text" class="form-control" required>
+    <label for="email">email</label>
+    <input type="text" id="email" ngControl="email" class="form-control" required>
   </div>
   <div class="form-group">
     <label for="password">password</label>
-    <input type="password" class="form-control">
+    <input type="password" id="password" ngControl="password" class="form-control">
   </div>
   <button type="submit" class="btn btn-default">Log in</button>
 </form>
