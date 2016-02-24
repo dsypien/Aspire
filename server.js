@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/authenticate', loginRoute);
 app.use('/registeruser', registerRoute);
 app.use('/', ngAppRoute);
-//app.use('/dep/', ngAppRoute);
 
 app.use(authenticateRoute);// Authenticate all routes after this
 app.use('/', indexRoute);

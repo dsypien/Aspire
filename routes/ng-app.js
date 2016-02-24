@@ -10,6 +10,14 @@ router.get('/app', function(req, res, next){
    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
+router.get('/login', function(req, res, next){
+   res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
+router.get('/register', function(req, res, next){
+   res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});
+
 router.get('/dep', function(req, res, next){
    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
