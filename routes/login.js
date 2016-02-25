@@ -4,6 +4,7 @@ var User = require('../models/user');
 var jwt = require('jsonwebtoken');
 
 router.post('/', function(req, res){
+	console.log('req');
 	var email = req.body.email;
 	var pwd = req.body.password;
 

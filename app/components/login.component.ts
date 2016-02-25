@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {NgForm} from 'angular2/common';
+import {NgForm, FORM_DIRECTIVES} from 'angular2/common';
 import {RouterOutlet} from 'angular2/router';
 import {AuthService} from '../services/auth.service';
 
@@ -14,6 +14,6 @@ export class LoginComponent{
 	constructor(private _authService: AuthService){}
 
 	authenticate(data){
-		console.log(data);
+		this._authService.login(data);
 	}
 }

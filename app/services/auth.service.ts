@@ -8,31 +8,37 @@ export class AuthService{
 
 	constructor(private http: Http){}
 
-	login(data){
-		var email = data.credentials.email;
-		var password = data.credentials.password;
+	register(data){
+		
+	}
 
-		var creds = "email=" + email + "&password" + password;
+	login(data){
+		var email = data.email;
+		var password = data.password;
+
+		var creds = "email=" + email + "&password=" + password;
 		var headers = new Headers();
 		headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
 		return this.http.post(this.loginUrl, creds, {
-							headers: headers
-						})
-						.toPromise()
-						.then(res => res.json().data, this.handleError)
-						.then(data => {
-							console.log(data);
-							return data;
-						});
+			headers: headers
+		})
+			.map(res => res.json())
+			.subscribe(
+			data => this.saveJwt(data.token),
+			err => console.log(err),
+			() => console.log('Authentication Complete')
+			);
+	}
+
+	saveJwt(jwt) {
+		if(jwt) {
+			localStorage.setItem('token', jwt)
+		}
 	}
 
 	private handleError(error: any){
 		console.error(error);
 		return Promise.reject(error.message || error.json().error || 'Server error');
-	}
-
-	register(email, password){
-
 	}
 }
