@@ -24,6 +24,7 @@ router.post('/', function(req, res){
 				expiresInMinutes: 1440
 			});
 
+			res.cookie('x-access-token', token, { maxAge: 900000, httpOnly: true });
 			res.json({success: true, token: token});
 		}
 		else{

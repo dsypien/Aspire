@@ -9,7 +9,22 @@ export class AuthService{
 	constructor(private http: Http){}
 
 	register(data){
-		
+		var email = data.email;
+		var password = data.password;
+
+		var creds = "email=" + email + "&password=" + password;
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+		return this.http.post(this.registerUrl, creds, {
+			headers: headers
+		})
+			.map(res => res.json())
+			.subscribe(
+			data => this.onRegister(data),
+			err => console.log(err),
+			() => console.log('Registration Complete')
+			);
 	}
 
 	login(data){
@@ -35,6 +50,14 @@ export class AuthService{
 		if(jwt) {
 			localStorage.setItem('token', jwt)
 		}
+	}
+
+	onRegister(data){
+
+	}
+
+	getJwt(){
+		return localStorage.getItem('token');
 	}
 
 	private handleError(error: any){
