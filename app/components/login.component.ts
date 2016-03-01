@@ -14,6 +14,7 @@ import {NotifyBar} from './notifyBar.component';
 export class LoginComponent{
 	private notifyMsg: string;
 	private notifyTitle: string;
+	private displayNotification = false;
 
 	constructor(private _authService: AuthService){}
 
@@ -21,5 +22,6 @@ export class LoginComponent{
 		this._authService.login(data);
 		this.notifyTitle = "Invalid login";
 		this.notifyMsg = "Invalid username or password";
+		this.displayNotification = true;
 	}
 }

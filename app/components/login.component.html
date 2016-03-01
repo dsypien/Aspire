@@ -1,6 +1,7 @@
 <notify-bar 
 	[title]="notifyTitle"
-	[message]="notifyMsg">
+	[message]="notifyMsg"
+	[isVisible]="displayNotification">
 </notify-bar>
 <h1>Log in to Aspire</h1>
 <form #f='ngForm' (ngSubmit)="authenticate(f.value)">
