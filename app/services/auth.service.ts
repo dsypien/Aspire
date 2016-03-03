@@ -27,7 +27,7 @@ export class AuthService{
 			);
 	}
 
-	login(data){
+	login(data, callback){
 		var email = data.email;
 		var password = data.password;
 
@@ -40,10 +40,13 @@ export class AuthService{
 		})
 			.map(res => res.json())
 			.subscribe(
-			data => this.saveJwt(data.token),
-			err => console.log(err),
-			() => console.log('Authentication Complete')
-			);
+				data => {
+					this.saveJwt(data.token)
+					callback(data);
+				},
+				err => console.log(err),
+				() => console.log('Authentication Complete')
+			);		
 	}
 
 	saveJwt(jwt) {

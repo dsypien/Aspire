@@ -10,5 +10,9 @@ import {NgClass} from 'angular2/common';
 export class NotifyBar{
 	@Input() title: string;
 	@Input() message: string;
-	public isVisible: boolean = false;
+	@Input() isVisible: boolean = false;
+
+	isHidden(){
+		return !this.isVisible;
+	}
 }
