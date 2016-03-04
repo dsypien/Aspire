@@ -19,14 +19,14 @@ export class LoginComponent{
 	constructor(private _authService: AuthService, private _router: Router){}
 
 	authenticate(data){
+		this.displayNotification = false;
 		var that = this;
-		this._authService.login(data, function(data){
-			that.onLogin(data);
+		this._authService.login(data, function(res){
+			that.onLogin(res);
 		});
 	}
 
 	onLogin(data){
-		console.log(data);
 		if(data.success){
 			this._router.navigate(['Home']);
 		}

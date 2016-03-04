@@ -8,7 +8,7 @@ export class AuthService{
 
 	constructor(private http: Http){}
 
-	register(data){
+	register(data, callback){
 		var email = data.email;
 		var password = data.password;
 
@@ -21,7 +21,10 @@ export class AuthService{
 		})
 			.map(res => res.json())
 			.subscribe(
-			data => this.onRegister(data),
+			data => {
+				this.onRegister(data);
+				callback(data);
+			},
 			err => console.log(err),
 			() => console.log('Registration Complete')
 			);
