@@ -1,6 +1,7 @@
 var express = require('express');
 var router 	= express.Router();
 var User = require('../models/user');
+var jwt = require('jsonwebtoken');
 
 router.post('/', function(req, res){
 	var email = req.body.email;
@@ -26,7 +27,13 @@ router.post('/', function(req, res){
 				res.json({success : false, message: err.message});
 				return;
 			}
-			res.json({success: true});
+
+			var token = jwt.sign(user, req.app.get('superSecret'), {
+				expiresInMinutes: 1440
+			});
+
+			res.cookie('x-access-token', token, { maxAge: 900000, httpOnly: true });
+			res.json({success: true, token: token});
 		})
 	});
 
