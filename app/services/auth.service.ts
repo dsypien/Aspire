@@ -22,7 +22,7 @@ export class AuthService{
 			.map(res => res.json())
 			.subscribe(
 			data => {
-				this.onRegister(data);
+				this.saveJwt(data.token);
 				callback(data);
 			},
 			err => console.log(err),
@@ -56,10 +56,6 @@ export class AuthService{
 		if(jwt) {
 			localStorage.setItem('token', jwt)
 		}
-	}
-
-	onRegister(data){
-
 	}
 
 	getJwt(){
