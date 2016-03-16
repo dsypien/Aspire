@@ -11,13 +11,23 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a [routerLink]="['Home']">Home</a></li>
-        <li><a href="#about">Activity</a></li>
-        <li><a href="#contact">Settings</a></li>
+        <li [ngClass]="{active: isActive(['Home'])}">
+          <a [routerLink]="['Home']">Home</a>
+        </li>
+        <li>
+          <a href="#about">Activity</a>
+        </li>
+        <li >
+          <a href="#contact">Settings</a>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a [routerLink]="['Login']">Login</a></li>
-        <li class="active"><a [routerLink]="['Register']">Register<span class="sr-only">(current) </span></a></li>
+        <li [ngClass]="{active: isActive(['Login'])}">
+          <a [routerLink]="['Login']">Login</a>
+        </li>
+        <li [ngClass]="{active: isActive(['Register'])}">
+          <a [routerLink]="['Register']">Register<span class="sr-only">(current) </span></a>
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
